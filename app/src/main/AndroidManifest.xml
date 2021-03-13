@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.WallaHabibi">
-        <activity android:name=".TermsOfServiceActivity"></activity>
+        <activity android:name=".EnterPhoneNumberActivity"></activity>
+        <activity android:name=".TermsOfServiceActivity" />
         <activity android:name=".PrivacyPolicyActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
