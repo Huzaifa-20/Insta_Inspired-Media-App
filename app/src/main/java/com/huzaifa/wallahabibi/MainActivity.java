@@ -26,7 +26,19 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         connectViews();
+        setListeners();
         createClickableText();
+    }
+
+    //SET ON CLICK LISTENERS//
+    private void setListeners() {
+        continueButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(MainActivity.this,EnterPhoneNumberActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     //FUNCTION THAT ENABLES 'PRIVACY POLICY' & 'TERMS OF SERVICE' TEXT TO BE CLICKABLE//
