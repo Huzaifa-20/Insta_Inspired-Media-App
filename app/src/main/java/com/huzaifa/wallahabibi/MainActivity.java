@@ -15,11 +15,18 @@ import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
 
     TextView tv;
     Button continueButton;
+
+    private FirebaseAuth mAuth;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,5 +97,19 @@ public class MainActivity extends AppCompatActivity {
     private void connectViews() {
         tv=findViewById(R.id.textView_AM);
         continueButton=findViewById(R.id.continue_button_AM);
+        mAuth=FirebaseAuth.getInstance();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        //FirebaseAuth.getInstance().signOut();
+        FirebaseUser user=mAuth.getCurrentUser();
+        if(user!=null){
+            Toast.makeText(MainActivity.this, " You're already signed in!", Toast.LENGTH_SHORT).show();
+            Intent intent=new Intent(MainActivity.this,homeScreen.class);
+            startActivity(intent);
+            //TAKE TO NEXT SCREEN//
+        }
     }
 }

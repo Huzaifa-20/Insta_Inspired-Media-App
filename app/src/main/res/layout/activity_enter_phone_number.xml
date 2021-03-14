@@ -61,7 +61,7 @@
             android:textAlignment="center">
         </Spinner>
         <View
-            android:layout_width="300dp"
+            android:layout_width="250dp"
             android:layout_height="2dp"
             android:layout_gravity="center"
             android:background="#818181">
@@ -107,8 +107,8 @@
         android:layout_centerInParent="true"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="20dp"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
+        android:paddingLeft="30dp"
+        android:paddingRight="30dp"
         android:background="@drawable/rounded_button_background"
         android:text="Next"
         android:textColor="#FFF">

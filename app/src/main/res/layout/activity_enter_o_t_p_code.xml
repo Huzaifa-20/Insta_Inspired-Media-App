@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,14 +8,93 @@
     tools:context=".EnterOTPCode">
 
     <TextView
-        android:id="@+id/tv"
+        android:id="@+id/numberHeading_AEOTPC"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="OTP VALIDATION"
+        android:text="12345678901"
         android:gravity="center"
-        android:layout_centerInParent="true"
-        android:textSize="30dp">
-
+        android:layout_marginTop="30dp"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        android:textColor="#818181">
     </TextView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:orientation="vertical"
+        android:layout_centerInParent="true">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Waiting to Automatically detect an SMS sent to"
+            android:textSize="18sp"
+            android:textColor="#818181">
+        </TextView>
+
+        <TextView
+            android:id="@+id/phoneNumberSubHeading_AEOTPC"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="12345678901. Wrong number?"
+            android:textSize="18sp"
+            android:textColor="#818181">
+        </TextView>
+
+        <EditText
+            android:id="@+id/otpCode_AEOTPC"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:hint="-  -  -    -  -  -"
+            android:textSize="25sp"
+            android:textColor="#818181"
+            android:textAlignment="center"
+            android:inputType="number">
+        </EditText>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:text="Enter 6 digit code"
+            android:textSize="25sp"
+            android:textColor="#818181">
+
+        </TextView>
+
+        <TextView
+            android:id="@+id/resendCode_AEOTPC"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="70dp"
+            android:gravity="center"
+            android:text="Resend SMS"
+            android:textSize="25sp">
+
+        </TextView>
+
+    </LinearLayout>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/next_AEOTPC"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp"
+        android:paddingLeft="30dp"
+        android:paddingRight="30dp"
+        android:background="@drawable/rounded_button_background"
+        android:text="Next"
+        android:textColor="#FFF">
+    </androidx.appcompat.widget.AppCompatButton>
+
 
 </RelativeLayout>

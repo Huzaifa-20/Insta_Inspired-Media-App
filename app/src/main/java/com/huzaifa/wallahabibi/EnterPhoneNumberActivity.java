@@ -1,5 +1,6 @@
 package com.huzaifa.wallahabibi;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 
@@ -13,6 +14,12 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.firebase.FirebaseException;
+import com.google.firebase.auth.PhoneAuthCredential;
+import com.google.firebase.auth.PhoneAuthProvider;
+
+import java.util.concurrent.TimeUnit;
 
 public class EnterPhoneNumberActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
@@ -37,16 +44,39 @@ public class EnterPhoneNumberActivity extends AppCompatActivity implements Adapt
             @Override
             public void onClick(View v) {
                 num=phoneNumber.getText().toString();
-                if(num.equals(""))
+                if(num.length()!=10)
                 {
-                    Toast.makeText(EnterPhoneNumberActivity.this, "Enter Phone Number", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EnterPhoneNumberActivity.this, "Enter Complete Phone Number", Toast.LENGTH_SHORT).show();
                 }
                 else
                 {
                     num=countryCode.getText().toString()+phoneNumber.getText().toString();
-                    Intent intent=new Intent(EnterPhoneNumberActivity.this,EnterOTPCode.class);
-                    intent.putExtra("PhoneNumber",num);
-                    startActivity(intent);
+                    PhoneAuthProvider.getInstance().verifyPhoneNumber(
+                            num,
+                            60,
+                            TimeUnit.SECONDS,
+                            EnterPhoneNumberActivity.this,
+                            new PhoneAuthProvider.OnVerificationStateChangedCallbacks(){
+                                @Override
+                                public void onVerificationCompleted(@NonNull PhoneAuthCredential phoneAuthCredential) {
+
+                                }
+
+                                @Override
+                                public void onVerificationFailed(@NonNull FirebaseException e) {
+                                    Toast.makeText(EnterPhoneNumberActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+
+                                @Override
+                                public void onCodeSent(@NonNull String verificationId, @NonNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
+                                    Toast.makeText(EnterPhoneNumberActivity.this, "Sending OTP Code via SMS", Toast.LENGTH_SHORT).show();
+                                    Intent intent=new Intent(EnterPhoneNumberActivity.this,EnterOTPCode.class);
+                                    intent.putExtra("PhoneNumber",num);
+                                    intent.putExtra("verificationId",verificationId);
+                                    startActivity(intent);
+                                }
+                            }
+                    );
                 }
             }
         });
@@ -71,25 +101,22 @@ public class EnterPhoneNumberActivity extends AppCompatActivity implements Adapt
         if(position==0) {
             countryCode.setText("+93");
         }
-        else if(position==1){
-            countryCode.setText("+880");
-        }
-        else if(position==2) {
+        else if(position==1) {
             countryCode.setText("+86");
         }
-        else if(position==3) {
+        else if(position==2) {
             countryCode.setText("+20");
         }
-        else if(position==4) {
+        else if(position==3) {
             countryCode.setText("+91");
         }
-        else if(position==5) {
+        else if(position==4) {
             countryCode.setText("+92");
         }
-        else if(position==6) {
+        else if(position==5) {
             countryCode.setText("+1");
         }
-        else if(position==7) {
+        else if(position==6) {
             countryCode.setText("+44");
         }
     }

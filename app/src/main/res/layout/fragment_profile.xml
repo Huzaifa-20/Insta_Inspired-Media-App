@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageButton
+        android:id="@+id/back_arrow_FP"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/ic_back_arrow">
+    </ImageButton>
+
+    <ImageButton
+        android:id="@+id/edit_FP"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/ic_edit">
+    </ImageButton>
+
+    <ImageButton
+        android:id="@+id/settings_FP"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_toLeftOf="@+id/edit_FP"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/ic_settings">
+
+    </ImageButton>
+
+    <LinearLayout
+        android:id="@+id/personalInfo_FP"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@id/back_arrow_FP">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/profileImage_FP"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/ic_profile">
+
+        </de.hdodenhof.circleimageview.CircleImageView>
+
+        <TextView
+            android:id="@+id/name_FP"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Name Here"
+            android:textSize="20sp"
+            android:textColor="#000">
+
+        </TextView>
+
+        <TextView
+            android:id="@+id/bio_FP"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:gravity="center"
+            android:text="A short and compacted bio"
+            android:textSize="15sp"
+            android:textColor="#000">
+
+        </TextView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/followers_FP"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Follower  5K"
+                android:textSize="15sp"
+                android:textColor="#000">
+
+            </TextView>
+
+            <View
+                android:layout_width="20dp"
+                android:layout_height="0dp">
+            </View>
+
+            <TextView
+                android:id="@+id/following_FP"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Following  1K"
+                android:textSize="15sp"
+                android:textColor="#000">
+            </TextView>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_FP"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/personalInfo_FP"
+        android:layout_marginTop="50dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+    </androidx.recyclerview.widget.RecyclerView>
+
+</RelativeLayout>

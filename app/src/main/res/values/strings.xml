@@ -2,7 +2,6 @@
     <string name="app_name">Walla Habibi</string>
     <string-array name="countries">
         <item>Afghanistan</item>
-        <item>Bangladesh</item>
         <item>China</item>
         <item>Egypt</item>
         <item>India</item>
