@@ -103,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
-        //FirebaseAuth.getInstance().signOut();
+
         FirebaseUser user=mAuth.getCurrentUser();
         if(user!=null){
             Toast.makeText(MainActivity.this, " You're already signed in!", Toast.LENGTH_SHORT).show();

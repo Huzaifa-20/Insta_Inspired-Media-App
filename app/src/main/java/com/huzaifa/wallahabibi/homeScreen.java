@@ -26,7 +26,7 @@ public class homeScreen extends AppCompatActivity {
     private void connectViews() {
         bottomNavigationView=findViewById(R.id.bottom_navigation_AHS);
         bottomNavigationView.setOnNavigationItemSelectedListener(navListener);
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_HS,new HomeFragment()).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_AHS,new HomeFragment()).commit();
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener navListener= new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -48,7 +48,7 @@ public class homeScreen extends AppCompatActivity {
                     selectedFragment=new ProfileFragment();
                     break;
             }
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_HS,selectedFragment).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_AHS,selectedFragment).commit();
             return true;
         }
     };

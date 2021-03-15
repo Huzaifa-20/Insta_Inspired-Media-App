@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,7 +22,6 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ProfileFragment extends Fragment {
 
-    ImageButton backArrow;
     ImageButton settings;
     ImageButton editProfile;
     CircleImageView profilePicture;
@@ -45,12 +45,33 @@ public class ProfileFragment extends Fragment {
         c=container.getContext();
 
         connectViews(v);
+        setListeners();
         return v;
+    }
+
+    //SET ON CLICK LISTENERS//
+    private void setListeners() {
+        settings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SettingsFragment settingsFragment=new SettingsFragment();
+                FragmentTransaction fragmentTransaction=getFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.fragment_container_AHS,settingsFragment).commit();
+            }
+        });
+
+        editProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EditFragment editFragment=new EditFragment();
+                FragmentTransaction fragmentTransaction=getFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.fragment_container_AHS,editFragment).commit();
+            }
+        });
     }
 
     //FUNCTION THAT CONNECTS XML TO JAVA FILE//
     private void connectViews(View v) {
-        backArrow=v.findViewById(R.id.back_arrow_FP);
         settings=v.findViewById(R.id.settings_FP);
         editProfile=v.findViewById(R.id.edit_FP);
         profilePicture=v.findViewById(R.id.profileImage_FP);
