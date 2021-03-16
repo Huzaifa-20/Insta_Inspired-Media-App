@@ -2,14 +2,15 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:paddingLeft="30dp"
+    android:paddingRight="10dp">
 
 
     <ImageButton
         android:id="@+id/back_arrow_FE"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
         android:background="@drawable/ic_back_arrow">
     </ImageButton>
@@ -18,9 +19,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/back_arrow_FE"
-        android:layout_marginLeft="20dp"
+        android:layout_marginLeft="30dp"
         android:layout_marginTop="10dp"
-        android:text="Edit"
+        android:text="Edit Profile"
         android:textSize="25sp"
         android:textColor="#000"
         android:textStyle="bold">
@@ -30,21 +31,22 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/back_arrow_FE"
-        android:orientation="vertical"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp">
+        android:layout_marginTop="25dp"
+        android:orientation="vertical">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/profileImage_FE"
             xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_gravity="center"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:src="@drawable/ic_profile">
         </de.hdodenhof.circleimageview.CircleImageView>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:text="Change Profile Picture"
             android:textSize="15sp"
             android:textColor="#000">
@@ -53,7 +55,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="30dp"
             android:orientation="vertical">
 
             <TextView
@@ -83,54 +85,6 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="User Name:"
-                android:textSize="18sp"
-                android:textColor="#000">
-            </TextView>
-
-            <EditText
-                android:id="@+id/userName_FE"
-                android:layout_width="200dp"
-                android:layout_height="wrap_content"
-                android:hint="Your Uniqueness!"
-                android:textSize="18sp"
-                android:inputType="textPersonName">
-            </EditText>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Age:"
-                android:textSize="18sp"
-                android:textColor="#000">
-            </TextView>
-
-            <EditText
-                android:id="@+id/age_FE"
-                android:layout_width="200dp"
-                android:layout_height="wrap_content"
-                android:hint="Is just a number!"
-                android:textSize="18sp"
-                android:inputType="textPersonName">
-            </EditText>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:text="Short Bio:"
                 android:textSize="18sp"
                 android:textColor="#000">
@@ -140,9 +94,33 @@
                 android:id="@+id/shortBio_FE"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
-                android:hint="Your Good Name"
+                android:hint="Short and compacted bio!"
                 android:textSize="18sp"
                 android:inputType="textPersonName">
+            </EditText>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Phone Number:"
+                android:textSize="18sp"
+                android:textColor="#000">
+            </TextView>
+
+            <EditText
+                android:id="@+id/phoneNumber_FE"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:hint="+911234567890"
+                android:textSize="18sp"
+                android:inputType="phone">
             </EditText>
         </LinearLayout>
 
@@ -163,7 +141,7 @@
             android:id="@+id/update_FE"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="15dp"
             android:gravity="center_vertical"
             android:text="> Update"
             android:textSize="25sp"

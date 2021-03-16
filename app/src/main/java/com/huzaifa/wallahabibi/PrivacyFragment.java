@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,7 +18,11 @@ public class PrivacyFragment extends Fragment {
 
     ImageButton backArrow;
     TextView history;
-    TextView deleteHistory;
+    TextView lastSeen;
+    TextView profilePhoto;
+    TextView bio;
+    TextView status;
+    TextView blocked;
     TextView deleteCache;
 
     Context c;
@@ -42,13 +47,24 @@ public class PrivacyFragment extends Fragment {
             }
         });
 
+        deleteCache.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(c, "Cache Cleared", Toast.LENGTH_SHORT).show();
+            }
+        });
+
 
     }
 
     private void connectViews(View v) {
         backArrow=v.findViewById(R.id.back_arrow_FP);
         history=v.findViewById(R.id.searchHistory_FP);
-        deleteHistory=v.findViewById(R.id.deleteSearchHistory_FP);
+        lastSeen=v.findViewById(R.id.lastSeen_FP);
+        profilePhoto=v.findViewById(R.id.profilePhoto_FP);
+        bio=v.findViewById(R.id.bio_FP);
+        status=v.findViewById(R.id.status_FP);
+        blocked=v.findViewById(R.id.blocked_FP);
         deleteCache=v.findViewById(R.id.clearCache_FP);
     }
 }

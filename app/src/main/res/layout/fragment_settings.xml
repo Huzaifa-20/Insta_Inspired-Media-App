@@ -2,13 +2,14 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:paddingLeft="30dp"
+    android:paddingRight="10dp">
 
     <ImageButton
         android:id="@+id/back_arrow_FS"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
         android:background="@drawable/ic_back_arrow">
     </ImageButton>
@@ -17,46 +18,63 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/back_arrow_FS"
-        android:layout_marginLeft="20dp"
+        android:layout_marginLeft="30dp"
         android:layout_marginTop="10dp"
         android:text="Settings"
         android:textSize="25sp"
         android:textColor="#000"
         android:textStyle="bold">
-
     </TextView>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/back_arrow_FS"
+        android:layout_marginTop="25dp"
         android:orientation="vertical"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:weightSum="4">
+        android:weightSum="5">
 
         <LinearLayout
             android:id="@+id/privacySettings_FS"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center_vertical">
+            android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Privacy"
-                android:textSize="18dp"
-                android:textColor="#000">
-            </TextView>
+            <ImageButton
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:background="@drawable/ic_lock">
+            </ImageButton>
 
-            <TextView
-                android:layout_width="wrap_content"
+            <View
+                android:layout_width="30dp"
+                android:layout_height="0dp"
+                android:layout_gravity="center_vertical">
+            </View>
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Search History, Blocked accounts,\nRestricted Accounts,Comment Privacy,..."
-                android:textSize="18dp">
-            </TextView>
+                android:orientation="vertical"
+                android:layout_gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Privacy"
+                    android:textSize="18dp"
+                    android:textColor="#000">
+                </TextView>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Search History, Blocked accounts, Restricted Accounts,Comment Privacy,..."
+                    android:textSize="18dp">
+                </TextView>
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
@@ -64,23 +82,43 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center_vertical">
+            android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="App Settings"
-                android:textSize="18dp"
-                android:textColor="#000">
-            </TextView>
+            <ImageButton
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:background="@drawable/ic_settings">
+            </ImageButton>
 
-            <TextView
-                android:layout_width="wrap_content"
+            <View
+                android:layout_width="30dp"
+                android:layout_height="0dp"
+                android:layout_gravity="center_vertical">
+            </View>
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Notifications, Permissions, Share the App,..."
-                android:textSize="18dp">
-            </TextView>
+                android:orientation="vertical"
+                android:layout_gravity="center_vertical" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="App Settings"
+                    android:textSize="18dp"
+                    android:textColor="#000">
+                </TextView>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Notifications, Permissions, Share the App,..."
+                    android:textSize="18dp">
+                </TextView>
+            </LinearLayout>
+
         </LinearLayout>
 
         <LinearLayout
@@ -88,24 +126,76 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center_vertical">
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:background="@drawable/ic_info">
+            </ImageButton>
+
+            <View
+                android:layout_width="30dp"
+                android:layout_height="0dp"
+                android:layout_gravity="center_vertical">
+            </View>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="About"
+                    android:textSize="18dp"
+                    android:textColor="#000">
+                </TextView>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Terms and conditions, FAQs, About Sharing App, Our Policies, Reviews,..."
+                    android:textSize="18dp">
+                </TextView>
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/shareSettings_FS"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:background="@drawable/ic_share">
+            </ImageButton>
+
+            <View
+                android:layout_width="30dp"
+                android:layout_height="0dp"
+                android:layout_gravity="center_vertical">
+            </View>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="About"
+                android:layout_gravity="center_vertical"
+                android:text="Share the sharingApp"
                 android:textSize="18dp"
                 android:textColor="#000">
             </TextView>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Terms and conditions, FAQs,\nAbout Sharing App, Our Policies, Reviews,..."
-                android:textSize="18dp">
-            </TextView>
         </LinearLayout>
+
 
         <TextView
             android:id="@+id/logOut_FS"

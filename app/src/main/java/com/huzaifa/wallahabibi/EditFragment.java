@@ -27,9 +27,8 @@ public class EditFragment extends Fragment implements AdapterView.OnItemSelected
     ImageButton backArrow;
     CircleImageView profilePicture;
     EditText name;
-    EditText userName;
-    EditText age;
     EditText bio;
+    EditText phoneNum;
     Spinner spinner;
     TextView update;
 
@@ -60,9 +59,8 @@ public class EditFragment extends Fragment implements AdapterView.OnItemSelected
         backArrow=v.findViewById(R.id.back_arrow_FE);
         profilePicture=v.findViewById(R.id.profileImage_FE);
         name=v.findViewById(R.id.name_FE);
-        userName=v.findViewById(R.id.userName_FE);
-        age=v.findViewById(R.id.age_FE);
         bio=v.findViewById(R.id.shortBio_FE);
+        phoneNum=v.findViewById(R.id.phoneNumber_FE);
         spinner=v.findViewById(R.id.countryName_FE);
         update=v.findViewById(R.id.update_FE);
 

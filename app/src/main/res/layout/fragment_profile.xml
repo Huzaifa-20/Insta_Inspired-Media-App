@@ -2,7 +2,9 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:paddingLeft="30dp"
+    android:paddingRight="10dp">
 
     <ImageButton
         android:id="@+id/edit_FP"
@@ -10,7 +12,6 @@
         android:layout_height="40dp"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="10dp"
-        android:layout_marginEnd="10dp"
         android:background="@drawable/ic_edit">
     </ImageButton>
 
@@ -18,8 +19,6 @@
         android:id="@+id/settings_FP"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_toLeftOf="@+id/edit_FP"
-        android:layout_marginEnd="20dp"
         android:layout_marginTop="10dp"
         android:background="@drawable/ic_settings">
 
@@ -32,22 +31,94 @@
         android:orientation="vertical"
         android:layout_below="@id/settings_FP">
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/profileImage_FP"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:layout_gravity="center"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:src="@drawable/ic_profile">
+            android:orientation="horizontal">
 
-        </de.hdodenhof.circleimageview.CircleImageView>
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/profileImage_FP"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/ic_profile">
+
+            </de.hdodenhof.circleimageview.CircleImageView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_gravity="center_vertical"
+                android:gravity="center">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center">
+
+                    <TextView
+                        android:id="@+id/followers_FP"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="5K"
+                        android:textSize="15sp"
+                        android:textColor="#000">
+                    </TextView>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Follower"
+                        android:textSize="15sp"
+                        android:textColor="#000">
+                    </TextView>
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="2dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:background="#818181">
+                </View>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center">
+
+                    <TextView
+                        android:id="@+id/following_FP"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="1K"
+                        android:textSize="15sp"
+                        android:textColor="#000">
+                    </TextView>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Following"
+                        android:textSize="15sp"
+                        android:textColor="#000">
+                    </TextView>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
 
         <TextView
             android:id="@+id/name_FP"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
             android:text="Name Here"
             android:textSize="20sp"
             android:textColor="#000">
@@ -59,47 +130,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:gravity="center"
             android:text="A short and compacted bio"
             android:textSize="15sp"
             android:textColor="#000">
 
         </TextView>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal"
-            android:gravity="center">
-
-            <TextView
-                android:id="@+id/followers_FP"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Follower  5K"
-                android:textSize="15sp"
-                android:textColor="#000">
-
-            </TextView>
-
-            <View
-                android:layout_width="20dp"
-                android:layout_height="0dp">
-            </View>
-
-            <TextView
-                android:id="@+id/following_FP"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Following  1K"
-                android:textSize="15sp"
-                android:textColor="#000">
-            </TextView>
-
-        </LinearLayout>
 
     </LinearLayout>
 

@@ -25,6 +25,7 @@ public class SettingsFragment extends Fragment {
     LinearLayout privacy;
     LinearLayout appSettings;
     LinearLayout about;
+    LinearLayout share;
     TextView logOut;
 
     Context c;
@@ -50,6 +51,24 @@ public class SettingsFragment extends Fragment {
             }
         });
 
+        privacy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PrivacyFragment privacyFragment=new PrivacyFragment();
+                FragmentTransaction fragmentTransaction=getFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.fragment_container_AHS,privacyFragment).commit();
+            }
+        });
+
+        appSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AppSettingFragment appSettingFragment=new AppSettingFragment();
+                FragmentTransaction fragmentTransaction=getFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.fragment_container_AHS,appSettingFragment).commit();
+            }
+        });
+
         logOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -66,6 +85,7 @@ public class SettingsFragment extends Fragment {
         privacy=v.findViewById(R.id.privacySettings_FS);
         appSettings=v.findViewById(R.id.appSettings_FS);
         about=v.findViewById(R.id.aboutSettings_FS);
+        share=v.findViewById(R.id.shareSettings_FS);
         logOut=v.findViewById(R.id.logOut_FS);
     }
 }
