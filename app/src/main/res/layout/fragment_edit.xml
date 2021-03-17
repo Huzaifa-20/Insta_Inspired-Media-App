@@ -124,19 +124,6 @@
             </EditText>
         </LinearLayout>
 
-        <Spinner
-            android:id="@+id/countryName_FE"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:textAlignment="center">
-        </Spinner>
-        <View
-            android:layout_width="200dp"
-            android:layout_height="2dp"
-            android:background="#818181">
-        </View>
-
         <TextView
             android:id="@+id/update_FE"
             android:layout_width="match_parent"
