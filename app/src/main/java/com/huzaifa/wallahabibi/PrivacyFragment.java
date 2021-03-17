@@ -47,6 +47,54 @@ public class PrivacyFragment extends Fragment {
             }
         });
 
+        lastSeen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(lastSeen.getText().toString().equals("everyone >")){
+                    lastSeen.setText("restricted >");
+                }
+                else{
+                    lastSeen.setText("everyone >");
+                }
+            }
+        });
+
+        profilePhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(profilePhoto.getText().toString().equals("everyone >")){
+                    profilePhoto.setText("restricted >");
+                }
+                else{
+                    profilePhoto.setText("everyone >");
+                }
+            }
+        });
+
+        bio.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(bio.getText().toString().equals("everyone >")){
+                    bio.setText("restricted >");
+                }
+                else{
+                    bio.setText("everyone >");
+                }
+            }
+        });
+
+        status.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(lastSeen.getText().toString().equals("everyone >")){
+                    status.setText("restricted >");
+                }
+                else{
+                    status.setText("everyone >");
+                }
+            }
+        });
+
         deleteCache.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

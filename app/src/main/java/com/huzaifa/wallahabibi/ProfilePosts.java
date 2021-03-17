@@ -4,16 +4,14 @@ public class ProfilePosts {
     String firstPost;
     String secondPost;
     String thirdPost;
-    String fourthPost;
 
     public ProfilePosts() {
     }
 
-    public ProfilePosts(String p1, String p2, String p3, String p4){
+    public ProfilePosts(String p1, String p2, String p3){
         firstPost=p1;
         secondPost=p2;
         thirdPost=p3;
-        fourthPost=p4;
     }
 
     public String getFirstPost() {
@@ -38,13 +36,5 @@ public class ProfilePosts {
 
     public void setThirdPost(String thirdPost) {
         this.thirdPost = thirdPost;
-    }
-
-    public String getFourthPost() {
-        return fourthPost;
-    }
-
-    public void setFourthPost(String fourthPost) {
-        this.fourthPost = fourthPost;
     }
 }

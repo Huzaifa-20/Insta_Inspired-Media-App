@@ -1,6 +1,8 @@
 package com.huzaifa.wallahabibi;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +23,8 @@ import androidx.fragment.app.FragmentTransaction;
 import org.w3c.dom.Text;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+
+import static android.app.Activity.RESULT_OK;
 
 public class EditFragment extends Fragment implements AdapterView.OnItemSelectedListener {
 
@@ -50,6 +54,16 @@ public class EditFragment extends Fragment implements AdapterView.OnItemSelected
             ProfileFragment profileFragment=new ProfileFragment();
             FragmentTransaction fragmentTransaction=getFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.fragment_container_AHS,profileFragment).commit();
+        });
+
+        profilePicture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(intent, "Pick an image"), 02);
+            }
         });
 
         update.setOnClickListener(v -> Toast.makeText(c, "Update information on firebase", Toast.LENGTH_SHORT).show());
@@ -99,5 +113,14 @@ public class EditFragment extends Fragment implements AdapterView.OnItemSelected
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 02 && resultCode == RESULT_OK && data != null) {
+            Uri imageDataUri = data.getData();
+            profilePicture.setImageURI(imageDataUri);
+        }
     }
 }

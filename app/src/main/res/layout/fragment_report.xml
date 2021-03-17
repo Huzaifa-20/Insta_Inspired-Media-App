@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="30dp"
+    android:paddingRight="10dp"
+    tools:ignore="MissingDefaultResource">
+
+    <ImageButton
+        android:id="@+id/back_arrow_FR"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/ic_back_arrow">
+    </ImageButton>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/back_arrow_FR"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="20dp"
+        android:text="Report"
+        android:textSize="25sp"
+        android:textColor="#000"
+        android:textStyle="bold">
+    </TextView>
+
+    <LinearLayout
+        android:id="@+id/options"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:layout_below="@+id/back_arrow_FR"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/reportButton_FR"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:backgroundTint="#FFF"
+            android:text="Report"
+            android:textSize="20sp"
+            android:textColor="#818181"
+            android:textAllCaps="false">
+        </Button>
+
+        <View
+            android:layout_width="50dp"
+            android:layout_height="0dp">
+        </View>
+
+        <Button
+            android:id="@+id/feedbackButton_FR"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:backgroundTint="#FFF"
+            android:text="Feedback"
+            android:textSize="20sp"
+            android:textColor="#818181"
+            android:textAllCaps="false">
+        </Button>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="50dp"
+        android:layout_below="@+id/options"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/input_FR"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Details of your important feedback..."
+            android:textSize="18dp"
+            android:textColor="#818181">
+        </EditText>
+
+        <TextView
+            android:id="@+id/attachFiles_FR"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:text="  Attached File (Image, video, doc etc)"
+            android:textSize="20dp"
+            android:drawableLeft="@drawable/ic_square">
+        </TextView>
+
+        <EditText
+            android:id="@+id/email_phone_FR"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:hint="Email/Phone"
+            android:textSize="20sp"
+            android:textColor="#818181">
+        </EditText>
+
+    </LinearLayout>
+
+</RelativeLayout>

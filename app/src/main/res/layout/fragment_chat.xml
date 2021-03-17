@@ -1,14 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="Chat Fragment"
-        android:textSize="30sp">
+        android:layout_marginTop="25dp"
+        android:paddingLeft="20dp"
+        android:text="Chats"
+        android:textSize="40dp"
+        android:textColor="#000"
+        android:textStyle="bold">
     </TextView>
 
-</RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/white_rounded_rectangle"
+        android:paddingTop="2dp"
+        android:paddingBottom="2dp">
+
+        <TextView
+            android:id="@+id/searchTextView_FC"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:text="Search"
+            android:textColor="#818485"
+            android:layout_centerInParent="true"
+            android:textSize="20dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:drawableLeft="@drawable/ic_search">
+        </TextView>
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/imageProfile_FC"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:paddingRight="10dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerInParent="true"
+            android:src="@drawable/ic_profile"
+            android:clickable="true"
+            android:focusable="true">
+
+        </de.hdodenhof.circleimageview.CircleImageView>
+    </RelativeLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_FC"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="25dp">
+    </androidx.recyclerview.widget.RecyclerView>
+
+</LinearLayout>

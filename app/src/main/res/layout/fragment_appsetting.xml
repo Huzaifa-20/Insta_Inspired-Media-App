@@ -10,9 +10,9 @@
 
     <ImageButton
         android:id="@+id/back_arrow_FAS"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="10dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="20dp"
         android:background="@drawable/ic_back_arrow">
     </ImageButton>
 
@@ -21,7 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/back_arrow_FAS"
         android:layout_marginLeft="30dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
         android:text="App Settings"
         android:textSize="25sp"
         android:textColor="#000"
@@ -40,7 +40,7 @@
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:text="Notifications"
-            android:textSize="25dp">
+            android:textSize="23dp">
         </TextView>
 
         <LinearLayout
@@ -53,7 +53,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Push Notifications"
-                android:textSize="25dp">
+                android:textSize="20dp">
             </TextView>
 
             <Switch
@@ -72,7 +72,7 @@
             android:layout_marginTop="25dp"
             android:gravity="center_vertical"
             android:text="Permissions"
-            android:textSize="25dp">
+            android:textSize="23dp">
         </TextView>
 
         <LinearLayout
@@ -85,7 +85,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Camera"
-                android:textSize="25dp">
+                android:textSize="20dp">
             </TextView>
 
             <Switch
@@ -108,7 +108,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Microphone"
-                android:textSize="25dp">
+                android:textSize="20dp">
             </TextView>
 
             <Switch

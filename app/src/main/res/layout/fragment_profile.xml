@@ -8,18 +8,18 @@
 
     <ImageButton
         android:id="@+id/edit_FP"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
         android:background="@drawable/ic_edit">
     </ImageButton>
 
     <ImageButton
         android:id="@+id/settings_FP"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="10dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="20dp"
         android:background="@drawable/ic_settings">
 
     </ImageButton>
@@ -42,7 +42,7 @@
                 xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:src="@drawable/ic_profile">
+                android:src="@drawable/ic_profile_picture_placeholder">
 
             </de.hdodenhof.circleimageview.CircleImageView>
 

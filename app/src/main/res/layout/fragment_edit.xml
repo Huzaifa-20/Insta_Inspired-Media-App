@@ -9,9 +9,9 @@
 
     <ImageButton
         android:id="@+id/back_arrow_FE"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="10dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="20dp"
         android:background="@drawable/ic_back_arrow">
     </ImageButton>
 
@@ -20,7 +20,7 @@
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/back_arrow_FE"
         android:layout_marginLeft="30dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
         android:text="Edit Profile"
         android:textSize="25sp"
         android:textColor="#000"
@@ -40,7 +40,7 @@
             android:layout_gravity="center"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:src="@drawable/ic_profile">
+            android:src="@drawable/ic_profile_picture_placeholder">
         </de.hdodenhof.circleimageview.CircleImageView>
 
         <TextView
@@ -48,7 +48,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="Change Profile Picture"
-            android:textSize="15sp"
+            android:textSize="18sp"
             android:textColor="#000">
         </TextView>
 
@@ -62,7 +62,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Name:"
-                android:textSize="18sp"
+                android:textSize="20sp"
                 android:textColor="#000">
             </TextView>
 
@@ -86,7 +86,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Short Bio:"
-                android:textSize="18sp"
+                android:textSize="20sp"
                 android:textColor="#000">
             </TextView>
 
@@ -110,7 +110,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Phone Number:"
-                android:textSize="18sp"
+                android:textSize="20sp"
                 android:textColor="#000">
             </TextView>
 
@@ -143,9 +143,10 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:gravity="center_vertical"
-            android:text="> Update"
+            android:text="Update"
             android:textSize="25sp"
-            android:textAlignment="viewEnd">
+            android:textAlignment="viewEnd"
+            android:drawableRight="@drawable/ic_arrow_forward">
         </TextView>
     </LinearLayout>
 

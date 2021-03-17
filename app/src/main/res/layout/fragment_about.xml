@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="30dp"
+    android:paddingRight="10dp"
+    tools:ignore="MissingDefaultResource">
+
+    <ImageButton
+        android:id="@+id/back_arrow_FAbout"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/ic_back_arrow">
+    </ImageButton>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/back_arrow_FAbout"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="20dp"
+        android:text="About"
+        android:textSize="25sp"
+        android:textColor="#000"
+        android:textStyle="bold">
+    </TextView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="25dp"
+        android:layout_below="@+id/back_arrow_FAbout"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/terms_FAbout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Our Terms &amp; Conditions"
+            android:textSize="20dp">
+        </TextView>
+
+        <TextView
+            android:id="@+id/policies_FAbout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="Our Policies"
+            android:textSize="20dp">
+        </TextView>
+
+        <TextView
+            android:id="@+id/report_FAbout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="Report"
+            android:textSize="20dp">
+        </TextView>
+
+        <TextView
+            android:id="@+id/rateReviews_FAbout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="Rate &amp; Reviews"
+            android:textSize="20dp">
+        </TextView>
+
+        <TextView
+            android:id="@+id/sharingApp_FAbout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="Our SharingApp"
+            android:textSize="20dp">
+        </TextView>
+
+    </LinearLayout>
+
+</RelativeLayout>

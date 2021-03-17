@@ -39,7 +39,6 @@ public class MyRvAdapter extends RecyclerView.Adapter<MyRvAdapter.MyViewHolder> 
 //        Picasso.get().load(ls.get(position).getFirstPost()).into(holder.firstPost);
 //        Picasso.get().load(ls.get(position).getSecondPost()).into(holder.secondPost);
 //        Picasso.get().load(ls.get(position).getThirdPost()).into(holder.thirdPost);
-//        Picasso.get().load(ls.get(position).getFourthPost()).into(holder.fourthPost);
 
     }
 
@@ -52,13 +51,11 @@ public class MyRvAdapter extends RecyclerView.Adapter<MyRvAdapter.MyViewHolder> 
         ImageView firstPost;
         ImageView secondPost;
         ImageView thirdPost;
-        ImageView fourthPost;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             firstPost=itemView.findViewById(R.id.image1_PPR);
             secondPost=itemView.findViewById(R.id.image2_PPR);
             thirdPost=itemView.findViewById(R.id.image3_PPR);
-            fourthPost=itemView.findViewById(R.id.image4_PPR);
         }
     }
 }
