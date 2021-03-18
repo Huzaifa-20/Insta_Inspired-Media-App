@@ -50,11 +50,14 @@ public class MyContactsRvAdapter extends RecyclerView.Adapter<MyContactsRvAdapte
 
         holder.name.setText(ls.get(position).getName());
 
-        //GET LAST MESSAGE SOMEHOW//
 
+
+        //TODO GET LAST MESSAGE SOMEHOW//
         lastMessage="No Message";
+        ////////////////////////////////
 
-        //                         //
+
+
         holder.lastMessage.setText(lastMessage);
         Picasso.get().load(ls.get(position).getProfileImage()).into(holder.profilePicture);
 

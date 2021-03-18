@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -13,13 +14,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
 public class StoriesRvAdapter extends RecyclerView.Adapter<StoriesRvAdapter.ViewHolder>{
 
     private Context c;
-    private ArrayList<String> images=new ArrayList<>();
+    private ArrayList<String> images;
 
     public StoriesRvAdapter(Context c, ArrayList<String> images) {
         this.c = c;
@@ -37,12 +39,13 @@ public class StoriesRvAdapter extends RecyclerView.Adapter<StoriesRvAdapter.View
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
-        RequestOptions ro=new RequestOptions().placeholder(R.drawable.ic_launcher_background);
+        RequestOptions ro=new RequestOptions().placeholder(R.drawable.frame);
 
 
         //TODO fix this ! ! !
 
-        Glide.with(c).asBitmap().load(images.get(position)).apply(ro).into(holder.lt);
+//        Picasso.get().load(images.get(position)).into(holder.lt);
+        Glide.with(c).load(images.get(position)).apply(ro).into(holder.lt);
 
 
 //        if ((position==(images.size()/2))&& (images.size()%2)==0){
@@ -69,7 +72,7 @@ public class StoriesRvAdapter extends RecyclerView.Adapter<StoriesRvAdapter.View
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 
-        LinearLayout ll;
+        RelativeLayout ll;
         CardView left;
         ImageView lt;
 

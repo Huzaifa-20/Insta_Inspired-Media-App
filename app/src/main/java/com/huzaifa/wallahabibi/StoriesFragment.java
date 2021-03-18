@@ -35,18 +35,22 @@ public class StoriesFragment extends Fragment {
         View v=inflater.inflate(R.layout.fragment_stories,container,false);
         c=container.getContext();
 
+        images=new ArrayList<>();
         images.add("https://wallpaperaccess.com/full/361942.jpg");
         images.add("https://wallpaperaccess.com/full/361854.jpg");
         images.add("https://wallpaperboat.com/wp-content/uploads/2019/09/duck-with-ducklings-photos.jpg");
+        images.add("https://miro.medium.com/max/580/0*uyPv5FeFHvOimMKn.jpg");
+        images.add("https://rdironworks.com/wp-content/uploads/2017/12/dummy-200x200.png");
+        images.add("https://i.redd.it/tpsnoz5bzo501.jpg");
 
         connectViews(v);
-        initRV(c);
+        initRV(v,c);
         setListeners();
         return v;
     }
 
-    private void initRV(Context c){
-        RecyclerView rv= getView().findViewById(R.id.stories_rv);
+    private void initRV(View v,Context c){
+        RecyclerView rv= v.findViewById(R.id.stories_rv);
         // TODO : use context c below, or simply reference pass "this" as in comment below
 //        StoriesRvAdapter sada=new StoriesRvAdapter(this,images )
         StoriesRvAdapter sada=new StoriesRvAdapter(c, images);
