@@ -73,6 +73,7 @@ public class homeScreen extends AppCompatActivity {
     };
 
     private void fetchData() {
+        currentUser=new Profile();
         mAuth=FirebaseAuth.getInstance();
         user=mAuth.getCurrentUser();
         database=FirebaseDatabase.getInstance();
