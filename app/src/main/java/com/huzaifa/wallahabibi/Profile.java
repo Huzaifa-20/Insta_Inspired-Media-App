@@ -19,9 +19,9 @@ public class Profile {
     boolean showStatus;
 
     public Profile() {
-        name="New User";
-        Bio="Not known";
-        profileImage="https://www.logolynx.com/images/logolynx/97/97e88682fa82ed11f3bf96dcf8479635.png";
+//        name="New User";
+//        Bio="Not known";
+//        profileImage="https://www.logolynx.com/images/logolynx/97/97e88682fa82ed11f3bf96dcf8479635.png";
     }
 
     public Profile(String myId,String profileImage, String name, String phoneNumber, String Bio) {

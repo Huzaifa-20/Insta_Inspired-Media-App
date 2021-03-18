@@ -37,6 +37,13 @@ public class homeScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_screen);
 
+        currentUser=new Profile();
+        mAuth=FirebaseAuth.getInstance();
+        user=mAuth.getCurrentUser();
+        database=FirebaseDatabase.getInstance();
+        database.setPersistenceEnabled(true);
+        reference=database.getReference("Profiles");
+
         connectViews();
 
     }
@@ -73,13 +80,6 @@ public class homeScreen extends AppCompatActivity {
     };
 
     private void fetchData() {
-        currentUser=new Profile();
-        mAuth=FirebaseAuth.getInstance();
-        user=mAuth.getCurrentUser();
-        database=FirebaseDatabase.getInstance();
-        database.setPersistenceEnabled(true);
-        reference=database.getReference("Profiles");
-
         reference.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
