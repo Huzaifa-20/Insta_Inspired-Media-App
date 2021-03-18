@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ChatScreen"
+    android:background="#FFF"
+    android:paddingBottom="5dp">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:clipToPadding="true">
+
+        <ImageView
+            android:id="@+id/back_arrow_ACS"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:src="@drawable/ic_back_arrow">
+        </ImageView>
+
+        <TextView
+            android:id="@+id/username_ACS"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Person"
+            android:textSize="25dp"
+            android:textColor="#000">
+        </TextView>
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/profile_image_ACS"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="end"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/ic_profile"
+            android:clickable="true"
+            android:focusable="true">
+
+        </de.hdodenhof.circleimageview.CircleImageView>
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <View
+        android:id="@+id/shadow"
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:layout_below="@+id/toolbar"
+        android:background="@drawable/toolbar_shadow">
+    </View>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view_ACS"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/shadow"
+        android:layout_above="@+id/bottomSendMessage_ACS"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp">
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+
+
+    <RelativeLayout
+        android:id="@+id/bottomSendMessage_ACS"
+        android:layout_width="350dp"
+        android:layout_height="50dp"
+        android:background="@drawable/white_rounded_rectangle"
+        android:layout_alignParentBottom="true"
+        android:layout_centerInParent="true"
+        android:paddingLeft="15dp">
+
+        <ImageView
+            android:id="@+id/cameraIcon"
+            android:layout_width="40dp"
+            android:layout_height="35dp"
+            android:src="@drawable/ic_camera"
+            android:layout_centerInParent="true"
+            android:layout_alignParentLeft="true">
+
+        </ImageView>
+
+        <EditText
+            android:id="@+id/write_message_ACS"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Type your message here..."
+            android:textColorHint="#B9CFD6D8"
+            android:layout_toRightOf="@+id/cameraIcon"
+            android:layout_toLeftOf="@+id/sendMessageIcon_ACS"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:textSize="17dp"
+            android:clickable="true"
+            android:focusable="true">
+        </EditText>
+
+        <ImageView
+            android:id="@+id/sendMessageIcon_ACS"
+            android:layout_width="40dp"
+            android:layout_height="35dp"
+            android:src="@drawable/ic_send_message"
+            android:layout_centerInParent="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp">
+
+        </ImageView>
+
+    </RelativeLayout>
+
+</RelativeLayout>

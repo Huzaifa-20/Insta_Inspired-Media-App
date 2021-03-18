@@ -14,6 +14,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.WallaHabibi">
+        <activity android:name=".ChatScreen"></activity>
         <activity android:name=".homeScreen" />
         <activity android:name=".EnterOTPCode" />
         <activity android:name=".EnterPhoneNumberActivity" />
