@@ -20,7 +20,21 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+
 import org.w3c.dom.Text;
+
+import java.util.HashMap;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -30,11 +44,14 @@ public class EditFragment extends Fragment {
 
     ImageButton backArrow;
     CircleImageView profilePicture;
+    private Uri imageDataUri;
     EditText name;
     EditText bio;
     EditText phoneNum;
     TextView update;
 
+    private FirebaseAuth mAuth;
+    private FirebaseUser user;
     Context c;
     @Nullable
     @Override
@@ -64,7 +81,74 @@ public class EditFragment extends Fragment {
             }
         });
 
-        update.setOnClickListener(v -> Toast.makeText(c, "Update information on firebase", Toast.LENGTH_SHORT).show());
+        update.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String id=user.getUid();
+                String userName=name.getText().toString();
+                String shortBio=bio.getText().toString();
+                String phone=phoneNum.getText().toString();
+
+                if(imageDataUri!=null & userName!=null & shortBio!=null & phoneNum!=null){
+                    System.out.println("\n<====================================== 1 =====================================>\n");
+                    StorageReference storageReference= FirebaseStorage.getInstance().getReference().child("profileImages/"+userName+".jpg");
+                    storageReference.putFile(imageDataUri)
+                            .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                @Override
+                                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                    Task<Uri> task=taskSnapshot.getStorage().getDownloadUrl();
+                                    System.out.println("\n<====================================== 2 =====================================>\n");
+
+                                    task.addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                        @Override
+                                        public void onSuccess(Uri uri) {
+                                            System.out.println("\n<====================================== 3 =====================================>\n");
+                                            DatabaseReference reference=FirebaseDatabase.getInstance().getReference("Profiles").child(user.getUid());
+                                            String dp=uri.toString();
+
+                                            HashMap<String,String> hashMap=new HashMap<>();
+                                            hashMap.put("myId",id);
+                                            hashMap.put("profileImage",dp);
+                                            hashMap.put("name",userName);
+                                            hashMap.put("Bio",shortBio);
+                                            hashMap.put("phoneNumber",phone);
+
+                                            reference.setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<Void> task) {
+                                                    System.out.println("\n<====================================== 4 =====================================>\n");
+
+                                                    Toast.makeText(c, "Profile edited!", Toast.LENGTH_SHORT).show();
+                                                    ProfileFragment profileFragment=new ProfileFragment();
+                                                    FragmentTransaction fragmentTransaction=getFragmentManager().beginTransaction();
+                                                    fragmentTransaction.replace(R.id.fragment_container_AHS,profileFragment).commit();
+
+                                                }
+                                            }).addOnFailureListener(new OnFailureListener() {
+                                                @Override
+                                                public void onFailure(@NonNull Exception e) {
+                                                    System.out.println("\n<====================================== -1 =====================================>\n");
+                                                    Toast.makeText(c, "Profile not edited!", Toast.LENGTH_SHORT).show();
+                                                }
+                                            });
+
+                                        }
+                                    });
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    System.out.println("\n<====================================== -2 =====================================>\n");
+                                    Toast.makeText(c, "Failed uploading photo", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                }
+                else{
+                    Toast.makeText(c, "Fill all the fields", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     private void connectViews(View v) {
@@ -74,13 +158,16 @@ public class EditFragment extends Fragment {
         bio=v.findViewById(R.id.shortBio_FE);
         phoneNum=v.findViewById(R.id.phoneNumber_FE);
         update=v.findViewById(R.id.update_FE);
+
+        mAuth=FirebaseAuth.getInstance();
+        user=mAuth.getCurrentUser();
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 02 && resultCode == RESULT_OK && data != null) {
-            Uri imageDataUri = data.getData();
+            imageDataUri = data.getData();
             profilePicture.setImageURI(imageDataUri);
         }
     }

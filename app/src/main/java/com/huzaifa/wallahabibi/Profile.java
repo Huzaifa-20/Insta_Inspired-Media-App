@@ -9,7 +9,6 @@ public class Profile {
     String myId;
     String profileImage;
     String name;
-    String country;
     String phoneNumber;
     String Bio;
     int followers;
@@ -22,6 +21,14 @@ public class Profile {
     public Profile() {
     }
 
+    public Profile(String myId,String profileImage, String name, String phoneNumber, String Bio) {
+        this.myId=myId;
+        this.profileImage=profileImage;
+        this.name=name;
+        this.phoneNumber=phoneNumber;
+        this.Bio=Bio;
+    }
+
     public Profile(String name,String url) {
         this.name=name;
         this.profileImage=url;
@@ -31,7 +38,6 @@ public class Profile {
         this.myId=prof.getMyId();
         this.profileImage = prof.getProfileImage();
         this.name = prof.getName();
-        this.country = prof.getCountry();
         this.phoneNumber = prof.getPhoneNumber();
         this.Bio = prof.getBio();
         this.followers=prof.followers;
@@ -42,12 +48,11 @@ public class Profile {
         this.showStatus=prof.showStatus;
     }
 
-    public Profile(String id, String profileImage, String name, String country, String phoneNumber, String bio,int followers,int following,
+    public Profile(String id, String profileImage, String name, String phoneNumber, String bio,int followers,int following,
                    boolean showLastSeen,boolean showProfilePhoto,boolean showBio,boolean showStatus) {
         this.myId=id;
         this.profileImage = profileImage;
         this.name = name;
-        this.country = country;
         this.phoneNumber = phoneNumber;
         this.Bio = bio;this.followers=followers;
         this.following=following;
@@ -95,14 +100,6 @@ public class Profile {
 
     public void setBio(String bio) {
         Bio = bio;
-    }
-
-    public String getCountry() {
-        return country;
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
     }
 
     public int getFollowers() {

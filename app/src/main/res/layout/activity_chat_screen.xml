@@ -78,7 +78,7 @@
         android:paddingLeft="15dp">
 
         <ImageView
-            android:id="@+id/cameraIcon"
+            android:id="@+id/cameraIcon_ACS"
             android:layout_width="40dp"
             android:layout_height="35dp"
             android:src="@drawable/ic_camera"
@@ -93,7 +93,7 @@
             android:layout_height="wrap_content"
             android:hint="Type your message here..."
             android:textColorHint="#B9CFD6D8"
-            android:layout_toRightOf="@+id/cameraIcon"
+            android:layout_toRightOf="@+id/cameraIcon_ACS"
             android:layout_toLeftOf="@+id/sendMessageIcon_ACS"
             android:layout_centerInParent="true"
             android:layout_marginLeft="5dp"
