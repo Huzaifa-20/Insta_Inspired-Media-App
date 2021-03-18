@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "464153502191",
-    "project_id": "walla-habibi",
-    "storage_bucket": "walla-habibi.appspot.com"
+    "project_number": "1029484061722",
+    "project_id": "walla-habibi-3a1d6",
+    "storage_bucket": "walla-habibi-3a1d6.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:464153502191:android:cd348c87a9d7cd73f0961a",
+        "mobilesdk_app_id": "1:1029484061722:android:b1e1efbd0605fec4641da3",
         "android_client_info": {
           "package_name": "com.huzaifa.wallahabibi"
         }
       },
       "oauth_client": [
         {
-          "client_id": "464153502191-1cijfalthn95v0cqv9ffke48438rfjtl.apps.googleusercontent.com",
+          "client_id": "1029484061722-bds8kj7mkak67aukjmdoi4vcjgmk488n.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCgUUrJ4LPgr3jNZxvOHVHzCMQV6pr1tWY"
+          "current_key": "AIzaSyBNSWOnfEBYyHPA7hLMpNO40CdOZxIbYuA"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "464153502191-1cijfalthn95v0cqv9ffke48438rfjtl.apps.googleusercontent.com",
+              "client_id": "1029484061722-bds8kj7mkak67aukjmdoi4vcjgmk488n.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
