@@ -73,7 +73,7 @@ public class StoriesFragment extends Fragment {
     }
 
     private void initRV(View v, Context c){
-        RecyclerView rv= getView().findViewById(R.id.stories_rv);
+        RecyclerView rv= v.findViewById(R.id.stories_rv);
         // TODO : use context c below, or simply reference pass "this" as in comment below
 //        StoriesRvAdapter sada=new StoriesRvAdapter(this,images )
         StoriesRvAdapter sada=new StoriesRvAdapter(c, images);
