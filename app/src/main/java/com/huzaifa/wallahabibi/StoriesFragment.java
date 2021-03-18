@@ -13,6 +13,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
@@ -22,10 +23,11 @@ import java.util.ArrayList;
 import omari.hamza.storyview.StoryView;
 import omari.hamza.storyview.model.MyStory;
 
-public class StoriesFragment extends Fragment {
+public class StoriesFragment extends Fragment implements StoriesRvAdapter.OnStoryListener {
 
 
     Context c;
+    View v;
 
     TextView stories;
     ImageButton search, add;
@@ -36,7 +38,7 @@ public class StoriesFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v=inflater.inflate(R.layout.fragment_stories,container,false);
+        v=inflater.inflate(R.layout.fragment_stories,container,false);
         c=container.getContext();
 
         images=new ArrayList<>();
@@ -49,20 +51,46 @@ public class StoriesFragment extends Fragment {
 
 
         connectViews(v);
-        initStoryView(v, c);
         initRV(v,c);
-        setListeners();
         return v;
     }
 
-    private void initStoryView(View v, Context c) {
+    private void initRV(View v, Context c){
+        RecyclerView rv= v.findViewById(R.id.stories_rv);
+        // TODO : use context c below, or simply reference pass "this" as in comment below
+//        StoriesRvAdapter sada=new StoriesRvAdapter(this,images )
+        StoriesRvAdapter sada=new StoriesRvAdapter(c, images, this);
+        rv.setAdapter(sada);
+        // TODO : likewise below, pass c or this ?
+        StaggeredGridLayoutManager stag=new StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL);
+        rv.setLayoutManager(stag);
+    }
+
+    private void connectViews(View v) {
+        stories=v.findViewById(R.id.stories_stories);
+        search=v.findViewById(R.id.stories_search);
+        add=v.findViewById(R.id.stories_add_btn);
+    }
+
+    @Override
+    public void onStoryClick(int pos) {
+        initStoryView(v, c, pos);
+    }
+
+    private void initStoryView(View v, Context c, int pos) {
         myStories=new ArrayList<>();
 
-        for(String img: images){
-            myStories.add(new MyStory(img, null));
-        }
+        //TODO so our images will be like an obj of a class
+        //      where class holds a thumbnail and ref to actual user's stories
+        //      currently, the thumbnail itslef is being provided as story but later
+        //      implement such that the myStories list is populated with correct stories.
 
-        new StoryView.Builder(getFragmentManager())
+        myStories.add(new MyStory(images.get(pos))); // should become like
+        // for (String imgurls : (images.get(pos)){...add imgurls...}
+        // where images will actually hold sets of users' stories
+
+
+        new StoryView.Builder(((FragmentActivity)c).getSupportFragmentManager())
                 .setStoriesList(myStories)
                 .setStoryDuration(5000)
                 .setTitleText("Dummy title")
@@ -70,25 +98,5 @@ public class StoriesFragment extends Fragment {
                 .setTitleLogoUrl(images.get(0))
                 .build()
                 .show();
-    }
-
-    private void initRV(View v, Context c){
-        RecyclerView rv= v.findViewById(R.id.stories_rv);
-        // TODO : use context c below, or simply reference pass "this" as in comment below
-//        StoriesRvAdapter sada=new StoriesRvAdapter(this,images )
-        StoriesRvAdapter sada=new StoriesRvAdapter(c, images);
-        rv.setAdapter(sada);
-        // TODO : likewise below, pass c or this ?
-        StaggeredGridLayoutManager stag=new StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL);
-        rv.setLayoutManager(stag);
-    }
-
-    private void setListeners() {
-    }
-
-    private void connectViews(View v) {
-        stories=v.findViewById(R.id.stories_stories);
-        search=v.findViewById(R.id.stories_search);
-        add=v.findViewById(R.id.stories_add_btn);
     }
 }
