@@ -19,6 +19,9 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import java.util.ArrayList;
 
+import omari.hamza.storyview.StoryView;
+import omari.hamza.storyview.model.MyStory;
+
 public class StoriesFragment extends Fragment {
 
 
@@ -28,6 +31,7 @@ public class StoriesFragment extends Fragment {
     ImageButton search, add;
 
     private ArrayList<String> images;
+    private ArrayList<MyStory> myStories;
 
     @Nullable
     @Override
@@ -43,14 +47,33 @@ public class StoriesFragment extends Fragment {
         images.add("https://rdironworks.com/wp-content/uploads/2017/12/dummy-200x200.png");
         images.add("https://i.redd.it/tpsnoz5bzo501.jpg");
 
+
         connectViews(v);
+        initStoryView(v, c);
         initRV(v,c);
         setListeners();
         return v;
     }
 
-    private void initRV(View v,Context c){
-        RecyclerView rv= v.findViewById(R.id.stories_rv);
+    private void initStoryView(View v, Context c) {
+        myStories=new ArrayList<>();
+
+        for(String img: images){
+            myStories.add(new MyStory(img, null));
+        }
+
+        new StoryView.Builder(getFragmentManager())
+                .setStoriesList(myStories)
+                .setStoryDuration(5000)
+                .setTitleText("Dummy title")
+                .setSubtitleText("Dummy sub title")
+                .setTitleLogoUrl(images.get(0))
+                .build()
+                .show();
+    }
+
+    private void initRV(View v, Context c){
+        RecyclerView rv= getView().findViewById(R.id.stories_rv);
         // TODO : use context c below, or simply reference pass "this" as in comment below
 //        StoriesRvAdapter sada=new StoriesRvAdapter(this,images )
         StoriesRvAdapter sada=new StoriesRvAdapter(c, images);
