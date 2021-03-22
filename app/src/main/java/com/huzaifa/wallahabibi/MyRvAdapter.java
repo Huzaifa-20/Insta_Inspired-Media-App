@@ -35,11 +35,9 @@ public class MyRvAdapter extends RecyclerView.Adapter<MyRvAdapter.MyViewHolder> 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public void onBindViewHolder(@NonNull MyRvAdapter.MyViewHolder holder, final int position) {
-
-//        Picasso.get().load(ls.get(position).getFirstPost()).into(holder.firstPost);
-//        Picasso.get().load(ls.get(position).getSecondPost()).into(holder.secondPost);
-//        Picasso.get().load(ls.get(position).getThirdPost()).into(holder.thirdPost);
-
+        Picasso.get().load(ls.get(position).getFirstPost()).fit().centerCrop().into(holder.firstPost);
+        Picasso.get().load(ls.get(position).getSecondPost()).fit().centerCrop().into(holder.secondPost);
+        Picasso.get().load(ls.get(position).getThirdPost()).fit().centerCrop().into(holder.thirdPost);
     }
 
     @Override

@@ -13,6 +13,11 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,7 +27,6 @@ public class ChatFragment extends Fragment {
     RecyclerView rv;
     RecyclerView.LayoutManager lm;
     MyContactsRvAdapter adapter;
-    List<Profile> contacts;
     
     Context c;
     @Nullable
@@ -38,18 +42,11 @@ public class ChatFragment extends Fragment {
     }
 
     private void connectViews(View v) {
+
         searchView=v.findViewById(R.id.searchView_FC);
         rv=v.findViewById(R.id.rv_FC);
-
-        contacts=new ArrayList<>();
-        //GET CONTACTS FROM FIREBASE AND FILL CONTACTS LIST BEFORE SENDING TO ADAPTER//
-        contacts.add(new Profile("Salman","https://api.time.com/wp-content/uploads/2017/12/terry-crews-person-of-year-2017-time-magazine-facebook-1.jpg?quality=85"));
-        contacts.add(new Profile("Yumna","https://pkimgcdn.peekyou.com/40293972a8174d03a3156f071e6ac2af.jpeg"));
-        contacts.add(new Profile("Huzaifa","https://cdn.pixabay.com/photo/2018/08/28/12/41/avatar-3637425_960_720.png"));
-        contacts.add(new Profile("Hammad","https://www.dmarge.com/wp-content/uploads/2021/01/dwayne-the-rock-.jpg"));
-        //////////////////////////////////////////////////////////////////////////////
         lm= new LinearLayoutManager(c);
-        adapter=new MyContactsRvAdapter(contacts,c);
+        adapter=new MyContactsRvAdapter(MainActivity.chatContacts,c);
 
         rv.setLayoutManager(lm);
         rv.setAdapter(adapter);

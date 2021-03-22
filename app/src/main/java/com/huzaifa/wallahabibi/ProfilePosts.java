@@ -8,11 +8,22 @@ public class ProfilePosts {
     public ProfilePosts() {
     }
 
+    public ProfilePosts(String p1){
+        firstPost=p1;
+    }
+
+    public ProfilePosts(String p1, String p2){
+        firstPost=p1;
+        secondPost=p2;
+    }
+
     public ProfilePosts(String p1, String p2, String p3){
         firstPost=p1;
         secondPost=p2;
         thirdPost=p3;
     }
+
+
 
     public String getFirstPost() {
         return firstPost;

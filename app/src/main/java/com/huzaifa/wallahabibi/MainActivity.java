@@ -1,6 +1,7 @@
 package com.huzaifa.wallahabibi;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -12,6 +13,7 @@ import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -19,13 +21,38 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
+    //<--------GLOBAL VARIABLES-------->//
+    public static Profile currentUser;
+    public static ArrayList<String> followers;
+    public static ArrayList<String> following;
+    public static List<ProfilePosts> posts;
+    public static List<Profile> chatContacts;
+    //<-------------------------------->//
+
+    //<----FIREBASE VARIABLES---->//
+    FirebaseAuth mAuth;
+    private FirebaseUser user;
+    private FirebaseDatabase database;
+    private DatabaseReference reference;
+    //<-------------------------->//
+
+    //<--------XML VIEWS-------->//
     TextView tv;
     Button continueButton;
-
-    private FirebaseAuth mAuth;
+    //<------------------------->//
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,19 +124,128 @@ public class MainActivity extends AppCompatActivity {
     private void connectViews() {
         tv=findViewById(R.id.textView_AM);
         continueButton=findViewById(R.id.continue_button_AM);
-        mAuth=FirebaseAuth.getInstance();
     }
 
     @Override
     public void onStart() {
         super.onStart();
 
-        FirebaseUser user=mAuth.getCurrentUser();
-        if(user!=null){
+        mAuth=FirebaseAuth.getInstance();
+        user=mAuth.getCurrentUser();
+        if(user!=null)
+        {
+            currentUser=new Profile();
+            followers=new ArrayList<>();
+            following=new ArrayList<>();
+            posts=new ArrayList<>();
+            chatContacts=new ArrayList<>();
+
+            database=FirebaseDatabase.getInstance();
+            database.setPersistenceEnabled(true);
+            reference=database.getReference("Profiles");
+
+            ExampleRunnable exampleRunnable=new ExampleRunnable();
+            new Thread(exampleRunnable).start();
+
             Toast.makeText(MainActivity.this, " You're already signed in!", Toast.LENGTH_SHORT).show();
             Intent intent=new Intent(MainActivity.this,homeScreen.class);
             startActivity(intent);
-            //TAKE TO NEXT SCREEN//
         }
+    }
+
+    //IMPLEMENTED FOR THREADING PART//
+    class ExampleRunnable implements Runnable{
+
+        ExampleRunnable(){
+
+        }
+
+        @Override
+        public void run() {
+            fetchData();
+        }
+    }
+
+    private void fetchData() {
+        reference.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                Profile tempUser=new Profile(dataSnapshot.getValue(Profile.class));
+                if(tempUser.getMyId().equals(user.getUid()))
+                {
+                    currentUser=new Profile(tempUser);
+
+                    if(currentUser.getFollowers()!=null)
+                    {
+                        Iterator it = currentUser.getFollowers().entrySet().iterator();
+                        while (it.hasNext())
+                        {
+                            Map.Entry pair = (Map.Entry)it.next();
+                            followers.add(pair.getValue().toString());
+                            it.remove(); // avoids a ConcurrentModificationException
+                        }
+                    }
+                    if(currentUser.getFollowing()!=null)
+                    {
+                        Iterator it = currentUser.getFollowing().entrySet().iterator();
+                        while (it.hasNext())
+                        {
+                            Map.Entry pair = (Map.Entry)it.next();
+                            following.add(pair.getValue().toString());
+                            it.remove(); // avoids a ConcurrentModificationException
+                        }
+                    }
+                    if(currentUser.getPosts()!=null)
+                    {
+                        ArrayList<String> postUrls=new ArrayList<>();
+                        Iterator it = currentUser.getPosts().entrySet().iterator();
+                        while (it.hasNext())
+                        {
+                            Map.Entry pair = (Map.Entry)it.next();
+                            postUrls.add(pair.getValue().toString());
+                            it.remove(); // avoids a ConcurrentModificationException
+                        }
+
+                        for(int i=0;i<postUrls.size();i++)
+                        {
+                            if( i+2<=(postUrls.size()-1) )
+                            {
+                                posts.add(new ProfilePosts(postUrls.get(i), postUrls.get(i+2), postUrls.get(i+2)));
+                                i+=2;
+                            }
+                            else if( i+1==(postUrls.size()-1) )
+                            {
+                                posts.add(new ProfilePosts(postUrls.get(i),postUrls.get(i+1)));
+                                i++;
+                            }
+                            else if( i==(postUrls.size()-1) )
+                            {
+                                posts.add(new ProfilePosts(postUrls.get(i)));
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    chatContacts.add(new Profile(tempUser));
+                }
+            }
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
     }
 }

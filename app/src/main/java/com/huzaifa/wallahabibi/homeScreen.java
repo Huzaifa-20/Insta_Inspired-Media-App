@@ -22,14 +22,6 @@ import com.squareup.picasso.Picasso;
 
 public class homeScreen extends AppCompatActivity {
 
-    //<----FIREBASE VARIABLES---->//
-    FirebaseAuth mAuth;
-    private FirebaseUser user;
-    private FirebaseDatabase database;
-    private DatabaseReference reference;
-    //<-------------------------->//
-
-    public static Profile currentUser;
     BottomNavigationView bottomNavigationView;
 
     @Override
@@ -37,15 +29,7 @@ public class homeScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_screen);
 
-        currentUser=new Profile();
-        mAuth=FirebaseAuth.getInstance();
-        user=mAuth.getCurrentUser();
-        database=FirebaseDatabase.getInstance();
-        database.setPersistenceEnabled(true);
-        reference=database.getReference("Profiles");
-
         connectViews();
-
     }
 
     //FUNCTION THAT CONNECTS XML TO JAVA FILE//
@@ -78,42 +62,4 @@ public class homeScreen extends AppCompatActivity {
             return true;
         }
     };
-
-    private void fetchData() {
-        reference.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                Profile tempUser=new Profile(dataSnapshot.getValue(Profile.class));
-                if(tempUser.getMyId().equals(user.getUid())){
-                    currentUser=new Profile(tempUser.getMyId(),tempUser.getProfileImage(),tempUser.getName(),
-                            tempUser.getPhoneNumber(),tempUser.getBio());
-                }
-            }
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-                Toast.makeText(homeScreen.this, "inside 3", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                Toast.makeText(homeScreen.this, "inside 4", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(homeScreen.this, "inside 5", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        fetchData();
-    }
 }

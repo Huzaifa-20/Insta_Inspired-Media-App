@@ -1,6 +1,7 @@
 package com.huzaifa.wallahabibi;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,11 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -42,7 +48,6 @@ public class ProfileFragment extends Fragment {
 
     //<-----RECYCLER VIEW VARIABLES----->//
     RecyclerView rv;
-    List<ProfilePosts> profilePosts;
     Context c;
     //<-------------------------------->//
 
@@ -89,15 +94,16 @@ public class ProfileFragment extends Fragment {
         followers=v.findViewById(R.id.followers_FP);
         following=v.findViewById(R.id.following_FP);
 
-        Picasso.get().load(homeScreen.currentUser.getProfileImage()).into(profilePicture);
-        name.setText(homeScreen.currentUser.getName());
-        bio.setText(homeScreen.currentUser.getBio());
+        Picasso.get().load(MainActivity.currentUser.getProfileImage()).fit().centerCrop().into(profilePicture);
+        name.setText(MainActivity.currentUser.getName());
+        bio.setText(MainActivity.currentUser.getBio());
+        followers.setText(Integer.toString(MainActivity.currentUser.getTotalFollowers()));
+        following.setText(Integer.toString(MainActivity.currentUser.getTotalFollowing()));
 
         rv=v.findViewById(R.id.rv_FP);
         RecyclerView.LayoutManager lm= new LinearLayoutManager(c);
         rv.setLayoutManager(lm);
-        profilePosts=new ArrayList<>();
-        MyRvAdapter adapter = new MyRvAdapter(profilePosts,c);
+        MyRvAdapter adapter = new MyRvAdapter(MainActivity.posts,c);
         rv.setAdapter(adapter);
     }
 

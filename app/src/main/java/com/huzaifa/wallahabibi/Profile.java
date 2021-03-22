@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Profile {
     String myId;
@@ -11,25 +12,39 @@ public class Profile {
     String name;
     String phoneNumber;
     String Bio;
-    int followers;
-    int following;
-    boolean showLastSeen;
-    boolean showProfilePhoto;
-    boolean showBio;
-    boolean showStatus;
+    int totalFollowers;
+    int totalFollowing;
+    int totalPosts;
+    HashMap<String,String> followers;
+    HashMap<String,String> following;
+    HashMap<String,String> posts;
+    String showLastSeen;
+    String showProfilePhoto;
+    String showBio;
+    String showStatus;
 
     public Profile() {
-//        name="New User";
-//        Bio="Not known";
-//        profileImage="https://www.logolynx.com/images/logolynx/97/97e88682fa82ed11f3bf96dcf8479635.png";
+
     }
 
-    public Profile(String myId,String profileImage, String name, String phoneNumber, String Bio) {
+    public Profile(String myId,String profileImage, String name, String phoneNumber, String Bio, int totalFollowers,
+                   int totalFollowing, int totalPosts,HashMap<String,String> followers, HashMap<String,String> following, HashMap<String,String> posts,
+                   String showLastSeen, String showProfilePhoto, String showBio, String showStatus) {
         this.myId=myId;
         this.profileImage=profileImage;
         this.name=name;
         this.phoneNumber=phoneNumber;
         this.Bio=Bio;
+        this.totalFollowers=totalFollowers;
+        this.totalFollowing=totalFollowing;
+        this.totalPosts=totalPosts;
+        this.followers=followers;
+        this.following=following;
+        this.posts=posts;
+        this.showLastSeen=showLastSeen;
+        this.showProfilePhoto=showProfilePhoto;
+        this.showBio=showBio;
+        this.showStatus=showStatus;
     }
 
     public Profile(String name,String url) {
@@ -43,26 +58,16 @@ public class Profile {
         this.name = prof.getName();
         this.phoneNumber = prof.getPhoneNumber();
         this.Bio = prof.getBio();
+        this.totalFollowers=prof.totalFollowers;
+        this.totalFollowing=prof.totalFollowing;
+        this.totalPosts=prof.totalPosts;
         this.followers=prof.followers;
         this.following=prof.following;
+        this.posts=prof.posts;
         this.showLastSeen=prof.showLastSeen;
         this.showProfilePhoto=prof.showProfilePhoto;
         this.showBio=prof.showBio;
         this.showStatus=prof.showStatus;
-    }
-
-    public Profile(String id, String profileImage, String name, String phoneNumber, String bio,int followers,int following,
-                   boolean showLastSeen,boolean showProfilePhoto,boolean showBio,boolean showStatus) {
-        this.myId=id;
-        this.profileImage = profileImage;
-        this.name = name;
-        this.phoneNumber = phoneNumber;
-        this.Bio = bio;this.followers=followers;
-        this.following=following;
-        this.showLastSeen=showLastSeen;
-        this.showProfilePhoto=showProfilePhoto;
-        this.showBio=showBio;
-        this.showStatus=showStatus;
     }
 
     public String getMyId() {
@@ -105,51 +110,81 @@ public class Profile {
         Bio = bio;
     }
 
-    public int getFollowers() {
-        return followers;
+    public int getTotalFollowers() {
+        return totalFollowers;
     }
 
-    public void setFollowers(int followers) {
-        this.followers = followers;
+    public void setTotalFollowers(int totalFollowers) {this.totalFollowers = totalFollowers;}
+
+    public int getTotalFollowing() {
+        return totalFollowing;
     }
 
-    public int getFollowing() {
-        return following;
+    public void setTotalFollowing(int totalFollowing) {
+        this.totalFollowing = totalFollowing;
     }
 
-    public void setFollowing(int following) {
-        this.following = following;
-    }
-
-    public boolean isShowLastSeen() {
+    public String isShowLastSeen() {
         return showLastSeen;
     }
 
-    public void setShowLastSeen(boolean showLastSeen) {
+    public void setShowLastSeen(String showLastSeen) {
         this.showLastSeen = showLastSeen;
     }
 
-    public boolean isShowProfilePhoto() {
+    public String isShowProfilePhoto() {
         return showProfilePhoto;
     }
 
-    public void setShowProfilePhoto(boolean showProfilePhoto) {
+    public void setShowProfilePhoto(String showProfilePhoto) {
         this.showProfilePhoto = showProfilePhoto;
     }
 
-    public boolean isShowBio() {
+    public String isShowBio() {
         return showBio;
     }
 
-    public void setShowBio(boolean showBio) {
+    public void setShowBio(String showBio) {
         this.showBio = showBio;
     }
 
-    public boolean isShowStatus() {
+    public String isShowStatus() {
         return showStatus;
     }
 
-    public void setShowStatus(boolean showStatus) {
+    public void setShowStatus(String showStatus) {
         this.showStatus = showStatus;
+    }
+
+    public HashMap<String,String> getFollowers() {
+        return followers;
+    }
+
+    public void setFollowers(HashMap<String,String> followers) {
+        this.followers = followers;
+    }
+
+    public HashMap<String,String> getFollowing() {
+        return following;
+    }
+
+    public void setFollowing(HashMap<String,String> following) {
+        this.following = following;
+    }
+
+    public HashMap<String,String> getPosts() {
+        return posts;
+    }
+
+    public void setPosts(HashMap<String,String> posts) {
+        this.posts = posts;
+    }
+
+    public int getTotalPosts() {
+        return totalPosts;
+    }
+
+    public void setTotalPosts(int totalPosts) {
+        this.totalPosts = totalPosts;
     }
 }
