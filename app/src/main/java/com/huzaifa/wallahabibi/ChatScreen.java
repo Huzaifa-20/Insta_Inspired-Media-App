@@ -1,8 +1,10 @@
 package com.huzaifa.wallahabibi;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
@@ -15,6 +17,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ChatScreen extends AppCompatActivity {
@@ -22,21 +35,30 @@ public class ChatScreen extends AppCompatActivity {
     ImageView backArrow;
     TextView name;
     CircleImageView contactImage;
-    ImageView camera;
     EditText inputMessage;
     ImageView sendMessage;
+    int position;
 
+    private DatabaseReference reference;
 
     RecyclerView rv;
+    private MessageAdapter messageAdapter;
+    private List<Chat> mChat;
 
+    ValueEventListener seenListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_screen);
 
+        Intent intent=getIntent();
+        position=intent.getIntExtra("contactNumber",0);
+
         connectViews();
         setListeners();
+        readMessage(MainActivity.currentUser.getMyId(),MainActivity.chatContacts.get(position).getMyId());
+        seenMessage(MainActivity.chatContacts.get(position).getMyId());
     }
 
     private void connectViews()
@@ -44,10 +66,17 @@ public class ChatScreen extends AppCompatActivity {
         backArrow=findViewById(R.id.back_arrow_ACS);
         name=findViewById(R.id.username_ACS);
         contactImage=findViewById(R.id.profile_image_ACS);
-        camera=findViewById(R.id.cameraIcon_ACS);
         inputMessage=findViewById(R.id.write_message_ACS);
-        rv=findViewById(R.id.recycler_view_ACS);
         sendMessage=findViewById(R.id.sendMessageIcon_ACS);
+
+        rv=findViewById(R.id.recycler_view_ACS);
+        rv.setHasFixedSize(true);
+        LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getApplicationContext());
+        linearLayoutManager.setStackFromEnd(true);
+        rv.setLayoutManager(linearLayoutManager);
+
+        name.setText(MainActivity.chatContacts.get(position).getName());
+        Picasso.get().load(MainActivity.chatContacts.get(position).getProfileImage()).fit().centerCrop().into(contactImage);
     }
 
     private void setListeners()
@@ -60,37 +89,84 @@ public class ChatScreen extends AppCompatActivity {
             }
         });
 
-        camera.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setType("image/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(Intent.createChooser(intent, "Pick an image"), 03);
-            }
-        });
-
         sendMessage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String messageToSend=inputMessage.getText().toString();
-                if(messageToSend!="" ){
+                if(messageToSend!="" )
+                {
                     inputMessage.setText("");
-                    //sendingMessage(fuser.getUid(),userId,messageToSend,imageToSend);
+                    sendingMessage(MainActivity.currentUser.getMyId(),MainActivity.chatContacts.get(position).getMyId(),messageToSend);
                 }
             }
         });
 
     }
 
+    private void sendingMessage(final String myId, final String userId, final String message){
+
+        DatabaseReference reference= FirebaseDatabase.getInstance().getReference();
+
+        final HashMap<String,Object> hashMap=new HashMap<>();
+        hashMap.put("sender",myId);
+        hashMap.put("receiver",userId);
+        hashMap.put("message",message);
+        hashMap.put("seen",false);
+
+        reference.child("Chats").push().setValue(hashMap);
+    }
+
+    private void readMessage(final String myId, final String userId){
+        mChat=new ArrayList<>();
+        reference=FirebaseDatabase.getInstance().getReference("Chats");
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                mChat.clear();
+                for(DataSnapshot snapshot: dataSnapshot.getChildren() ){
+                    Chat chat=snapshot.getValue(Chat.class);
+                    if(chat.getReceiver().equals(myId) && chat.getSender().equals(userId) ||
+                            chat.getReceiver().equals(userId) && chat.getSender().equals(myId)) {
+                        mChat.add(chat);
+                    }
+                    messageAdapter=new MessageAdapter(ChatScreen.this,mChat);
+                    rv.setAdapter(messageAdapter);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void seenMessage(final String userId){
+        reference=FirebaseDatabase.getInstance().getReference("Chats");
+        seenListener=reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for(DataSnapshot snapshot: dataSnapshot.getChildren()){
+                    Chat chat=snapshot.getValue(Chat.class);
+                    if(chat.getReceiver().equals(MainActivity.currentUser.getMyId()) && chat.getSender().equals(userId)){
+                        HashMap<String,Object> hashMap=new HashMap<>();
+                        hashMap.put("seen",true);
+                        snapshot.getRef().updateChildren(hashMap);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 03 && resultCode == RESULT_OK && data != null) {
-            Uri imageDataUri = data.getData();
-            //TODO Send picture as a message now//
-            Toast.makeText(this, "send picture as a message now", Toast.LENGTH_SHORT).show();
-        }
+    protected void onPause() {
+        super.onPause();
+        reference.removeEventListener(seenListener);
     }
 }

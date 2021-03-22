@@ -1,6 +1,7 @@
 package com.huzaifa.wallahabibi;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -48,28 +56,20 @@ public class MyContactsRvAdapter extends RecyclerView.Adapter<MyContactsRvAdapte
     @Override
     public void onBindViewHolder(@NonNull MyContactsRvAdapter.MyViewHolder holder, final int position) {
 
-        holder.name.setText(ls.get(position).getName());
-
-
-
-        //TODO GET LAST MESSAGE SOMEHOW//
-        lastMessage="No Message";
-        ////////////////////////////////
-
-
+        lastMessage(ls.get(position).getMyId(),holder.lastMessage);
 
         holder.lastMessage.setText(lastMessage);
-        Picasso.get().load(ls.get(position).getProfileImage()).into(holder.profilePicture);
+        holder.name.setText(ls.get(position).getName());
+        Picasso.get().load(ls.get(position).getProfileImage()).fit().centerCrop().into(holder.profilePicture);
 
         holder.messagePreviewRow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //open activity of chat//
-                Toast.makeText(c, "open chat activity", Toast.LENGTH_SHORT).show();
+                Intent intent=new Intent(c,ChatScreen.class);
+                intent.putExtra("contactNumber",position);
+                c.startActivity(intent);
             }
         });
-
-
     }
 
     @Override
@@ -91,6 +91,32 @@ public class MyContactsRvAdapter extends RecyclerView.Adapter<MyContactsRvAdapte
             lastMessage=itemView.findViewById(R.id.lastMessage_MP);
             messagePreviewRow=itemView.findViewById(R.id.messagePreviewRow);
         }
+    }
+
+    //Getting last message//
+    private void lastMessage(final String userId, final TextView last_message){
+        lastMessage="No Message";
+        final FirebaseUser firebaseUser= FirebaseAuth.getInstance().getCurrentUser();
+        DatabaseReference reference= FirebaseDatabase.getInstance().getReference("Chats");
+
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for(DataSnapshot snapshot: dataSnapshot.getChildren()){
+                    Chat chat=snapshot.getValue(Chat.class);
+                    if(chat.getReceiver().equals(firebaseUser.getUid()) && chat.getSender().equals(userId) ||
+                            chat.getReceiver().equals(userId) && chat.getSender().equals(firebaseUser.getUid())){
+                        lastMessage=chat.getMessage();
+                    }
+                }
+                last_message.setText(lastMessage);
+                lastMessage="No message";
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
     }
 
     @Override

@@ -26,14 +26,12 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MyViewHo
     public static final int MSG_TYPE_RIGHT=1;
     List<Chat> mChat;
     Context mContext;
-    private String imageUrl;
 
     FirebaseUser fUser;
 
-    public MessageAdapter(Context c, List<Chat> ls, String imageUrl) {
+    public MessageAdapter(Context c, List<Chat> ls) {
         this.mContext=c;
-        this.mChat=ls;
-        this.imageUrl=imageUrl;
+        this.mChat=ls;;
 
     }
 
@@ -58,12 +56,6 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MyViewHo
 
         holder.show_message.setText(chat.getMessage());
 
-        if(imageUrl.equals("default")){
-            holder.profile_image.setImageResource(R.drawable.profile);
-        }
-        else{
-            Picasso.get().load(imageUrl).into(holder.profile_image);
-        }
         if(position==mChat.size()-1){
             if(chat.isSeen()){
                 holder.text_seen.setImageResource(R.drawable.ic_seen);

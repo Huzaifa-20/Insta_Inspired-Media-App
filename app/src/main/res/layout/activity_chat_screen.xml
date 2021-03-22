@@ -77,16 +77,6 @@
         android:layout_centerInParent="true"
         android:paddingLeft="15dp">
 
-        <ImageView
-            android:id="@+id/cameraIcon_ACS"
-            android:layout_width="40dp"
-            android:layout_height="35dp"
-            android:src="@drawable/ic_camera"
-            android:layout_centerInParent="true"
-            android:layout_alignParentLeft="true">
-
-        </ImageView>
-
         <EditText
             android:id="@+id/write_message_ACS"
             android:layout_width="match_parent"
