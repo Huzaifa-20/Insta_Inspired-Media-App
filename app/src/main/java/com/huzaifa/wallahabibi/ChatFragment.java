@@ -17,6 +17,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.huzaifa.wallahabibi.NotifPack.Token;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +39,8 @@ public class ChatFragment extends Fragment {
         
         connectViews(v);
         setListeners();
+
+        updateTok(FirebaseInstanceId.getInstance().getToken());
         
         return v;
     }
@@ -66,5 +70,11 @@ public class ChatFragment extends Fragment {
                 return false;
             }
         });
+    }
+
+    private void updateTok(String tok){
+        DatabaseReference ref= FirebaseDatabase.getInstance().getReference("Tokens");
+        Token tok1=new Token(tok);
+        ref.child(FirebaseAuth.getInstance().getUid()).setValue(tok1);
     }
 }

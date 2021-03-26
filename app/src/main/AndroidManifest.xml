@@ -9,15 +9,46 @@
     <uses-permission android:name="android.permission.ACCESS_MEDIA_LOCATION" />
 
     <application
-        android:hardwareAccelerated="false"
-        android:largeHeap="true"
         android:allowBackup="true"
+        android:hardwareAccelerated="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:largeHeap="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.WallaHabibi">
-        <activity android:name=".ChatScreen"></activity>
+        <servicie android:name=".NotifPack.MyFBSrvc"
+            android:enabled="true"
+            android:exported="true">
+
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+            </intent-filter>
+        </servicie>
+
+        <servicie android:name=".NotifPack.MyFBMessaging"
+            android:enabled="true"
+            android:exported="true">
+
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </servicie>
+
+        <service
+            android:name=".DeviceTokenFetchingSrvc">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+            </intent-filter>
+        </service>
+        <service
+            android:name=".MyFBMsgSrvc">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGIN_EVENT"/>
+            </intent-filter>
+        </service>
+
+        <activity android:name=".ChatScreen" />
         <activity android:name=".homeScreen" />
         <activity android:name=".EnterOTPCode" />
         <activity android:name=".EnterPhoneNumberActivity" />

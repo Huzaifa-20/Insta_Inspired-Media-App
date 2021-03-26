@@ -208,6 +208,8 @@ public class StoriesFragment extends Fragment implements StoriesRvAdapter.OnStor
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK && requestCode == 01) {
             imageDataUri = data.getData();
+//            Log.d("cheq1", "onActivityResult data imgDatauri: "+imageDataUri.toString());
+            System.out.println("Working"+imageDataUri.toString()+" or not?");
 
             SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault());
             String currentDateandTime = sdf.format(new Date());

@@ -59,8 +59,8 @@ public class StoriesRvAdapter extends RecyclerView.Adapter<StoriesRvAdapter.View
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        RelativeLayout ll;
-        CardView left;
+//        RelativeLayout ll;
+//        CardView left;
         ImageView lt;
         OnStoryListener onStoryListener;
 
@@ -73,8 +73,8 @@ public class StoriesRvAdapter extends RecyclerView.Adapter<StoriesRvAdapter.View
         }
 
         void connectViews(View v){
-            ll=v.findViewById(R.id.stories_ll);
-            left=v.findViewById(R.id.stories_card_left);
+//            ll=v.findViewById(R.id.stories_ll);
+//            left=v.findViewById(R.id.stories_card_left);
             lt=v.findViewById(R.id.stories_img_left);
         }
 
