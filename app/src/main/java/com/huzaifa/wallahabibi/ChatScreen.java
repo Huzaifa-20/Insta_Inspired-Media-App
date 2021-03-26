@@ -49,7 +49,7 @@ public class ChatScreen extends AppCompatActivity {
     EditText inputMessage;
     ImageView sendMessage;
     int position;
-    boolean notify=true;
+    boolean notify=false;
 
     APIServiceInterface apiServiceInterface;
 
@@ -143,7 +143,7 @@ public class ChatScreen extends AppCompatActivity {
                     sendNotification(MainActivity.chatContacts.get(position).getMyId(),
                             /*myId*/ user.getName(), msg);
                 }
-//                notify=false;
+                notify=false;
             }
 
             @Override
@@ -174,12 +174,12 @@ public class ChatScreen extends AppCompatActivity {
                                 public void onResponse(Call<MyResponse> call, Response<MyResponse> response) {
                                     if (response.code()==200){
                                         if (response.body().success!=1){
-                                            Toast.makeText(ChatScreen.this, "Failed...", Toast.LENGTH_SHORT).show();
+//                                            Toast.makeText(ChatScreen.this, "Failed...", Toast.LENGTH_SHORT).show();
                                         }
-                                        else{
-                                            Toast.makeText(ChatScreen.this, "SUCCESS", Toast.LENGTH_SHORT).show();
-                                        }
-                                        Toast.makeText(ChatScreen.this, "SUCCESS123", Toast.LENGTH_SHORT).show();
+//                                        else{
+//                                            Toast.makeText(ChatScreen.this, "SUCCESS", Toast.LENGTH_SHORT).show();
+//                                        }
+//                                        Toast.makeText(ChatScreen.this, "SUCCESS123", Toast.LENGTH_SHORT).show();
                                     }
                                 }
 
