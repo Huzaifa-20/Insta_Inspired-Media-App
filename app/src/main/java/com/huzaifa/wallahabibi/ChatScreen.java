@@ -140,7 +140,7 @@ public class ChatScreen extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Profile user=snapshot.getValue(Profile.class);
                 if (notify) {
-                    sendNotification(MainActivity.chatContacts.get(position).getName(),
+                    sendNotification(MainActivity.chatContacts.get(position).getMyId(),
                             /*myId*/ user.getName(), msg);
                 }
 //                notify=false;
