@@ -15,8 +15,8 @@ import androidx.core.app.NotificationCompat;
 
 public class OreoAndAboveNotifications extends ContextWrapper {
 
-    private static final String ID="some_ID";
-    private static final String NAME="FirebaseAPP";
+    private static final String ID="walla-habibi-3a1d6";
+    private static final String NAME="1:1029484061722:android:b1e1efbd0605fec4641da3";
 
     private NotificationManager notifMgr;
 
