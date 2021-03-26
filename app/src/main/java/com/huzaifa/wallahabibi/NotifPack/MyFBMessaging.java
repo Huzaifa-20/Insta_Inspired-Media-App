@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -29,8 +30,48 @@ public class MyFBMessaging extends FirebaseMessagingService {
         FirebaseUser fbu= FirebaseAuth.getInstance().getCurrentUser();
 
         if (fbu!=null && sented.equals(fbu.getUid())){
-            sendNotification(remoteMessage);
+            if (Build.VERSION.SDK_INT>= Build.VERSION_CODES.O){
+                sendOAndAbvNotificaion(remoteMessage);
+            }
+            else {
+                sendNotification(remoteMessage);
+            }
         }
+    }
+
+    private void sendOAndAbvNotificaion(RemoteMessage remoteMessage) {
+        String usr=remoteMessage.getData().get("user");
+        String icon=remoteMessage.getData().get("icon");
+        String title=remoteMessage.getData().get("title");
+        String bod=remoteMessage.getData().get("body");
+
+        RemoteMessage.Notification notif=remoteMessage.getNotification();
+
+        int j=Integer.parseInt(usr.replaceAll("[\\D]", ""));
+        Intent intent=new Intent(this, ChatScreen.class);
+        Bundle bundle=new Bundle();
+
+        bundle.putString("userid", usr);
+        intent.putExtras(bundle);
+
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+        PendingIntent pendingIntent=PendingIntent.getActivity(this, j, intent, PendingIntent.FLAG_ONE_SHOT);
+
+        Uri defaultSound= RingtoneManager.getDefaultUri( RingtoneManager.TYPE_NOTIFICATION);
+
+        OreoAndAboveNotifications oreoAndAboveNotifications1 =new OreoAndAboveNotifications(this);
+        Notification.Builder bilder= oreoAndAboveNotifications1.getONotification(title, bod, pendingIntent, defaultSound,icon);
+
+        int i=0;
+
+        if (j>0){
+            i=j;
+        }
+
+        oreoAndAboveNotifications1.getManager().notify(i, bilder.build());
+
+
     }
 
     private void sendNotification(RemoteMessage remoteMessage) {
