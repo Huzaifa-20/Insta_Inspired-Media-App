@@ -49,7 +49,7 @@ public class ChatScreen extends AppCompatActivity {
     EditText inputMessage;
     ImageView sendMessage;
     int position;
-    boolean notify=false;
+    boolean notify=true;
 
     APIServiceInterface apiServiceInterface;
 
@@ -143,7 +143,7 @@ public class ChatScreen extends AppCompatActivity {
                     sendNotification(MainActivity.chatContacts.get(position).getName(),
                             /*myId*/ user.getName(), msg);
                 }
-                notify=false;
+//                notify=false;
             }
 
             @Override
