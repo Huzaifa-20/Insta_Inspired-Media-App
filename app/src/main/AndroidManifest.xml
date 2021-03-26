@@ -17,23 +17,23 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.WallaHabibi">
-        <servicie android:name=".NotifPack.MyFBSrvc"
+        <service android:name=".NotifPack.MyFBSrvc"
             android:enabled="true"
             android:exported="true">
 
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
             </intent-filter>
-        </servicie>
+        </service>
 
-        <servicie android:name=".NotifPack.MyFBMessaging"
+        <service android:name=".NotifPack.MyFBMessaging"
             android:enabled="true"
             android:exported="true">
 
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT"/>
             </intent-filter>
-        </servicie>
+        </service>
 
         <service
             android:name=".DeviceTokenFetchingSrvc">

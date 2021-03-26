@@ -198,9 +198,25 @@ public class StoriesFragment extends Fragment implements StoriesRvAdapter.OnStor
 
         for(int i=0;i<allIndexes.size();i++)
         {
-            myStories.add(new MyStory(MainActivity.images.get(allIndexes.get(i))));
+            if(checkStoryDate(MainActivity.images.get(allIndexes.get(i))))
+            {
+                myStories.add(new MyStory(MainActivity.images.get(allIndexes.get(i))));
+            }
         }
         return myStories;
+    }
+
+    private boolean checkStoryDate(String url)
+    {
+        for(int i=0;i<MainActivity.allStories.size();i++)
+        {
+            if(url.equals(MainActivity.allStories.get(i)))
+            {
+                String time=MainActivity.allStories.get(i).getTime();
+
+            }
+        }
+        return false;
     }
 
     @Override
@@ -233,6 +249,9 @@ public class StoriesFragment extends Fragment implements StoriesRvAdapter.OnStor
                                     hashMap.put("time", currentDateandTime);
 
                                     reference.child("stories").push().setValue(hashMap);
+
+                                    MainActivity.allStories.add(new Story(MainActivity.currentUser.getName(),
+                                            uri.toString(), currentDateandTime));
                                 }
                             });
                         }
