@@ -90,7 +90,6 @@ public class EditFragment extends Fragment {
                 String phone=phoneNum.getText().toString();
 
                 if(imageDataUri!=null & userName!=null & shortBio!=null & phoneNum!=null){
-                    System.out.println("\n<====================================== 1 =====================================>\n");
                     StorageReference storageReference= FirebaseStorage.getInstance().getReference().child("profileImages/"+userName+".jpg");
                     storageReference.putFile(imageDataUri)
                             .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {

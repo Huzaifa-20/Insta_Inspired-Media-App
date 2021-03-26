@@ -57,7 +57,6 @@ public class ProfileFragment extends Fragment {
         View v=inflater.inflate(R.layout.fragment_profile,container,false);
         c=container.getContext();
 
-
         connectViews(v);
         setListeners();
         return v;

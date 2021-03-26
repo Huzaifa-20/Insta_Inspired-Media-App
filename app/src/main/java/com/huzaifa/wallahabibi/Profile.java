@@ -18,6 +18,7 @@ public class Profile {
     HashMap<String,String> followers;
     HashMap<String,String> following;
     HashMap<String,String> posts;
+    HashMap<String,Story> stories;
     String showLastSeen;
     String showProfilePhoto;
     String showBio;
@@ -29,7 +30,7 @@ public class Profile {
 
     public Profile(String myId,String profileImage, String name, String phoneNumber, String Bio, int totalFollowers,
                    int totalFollowing, int totalPosts,HashMap<String,String> followers, HashMap<String,String> following, HashMap<String,String> posts,
-                   String showLastSeen, String showProfilePhoto, String showBio, String showStatus) {
+                   HashMap<String,Story> stories, String showLastSeen, String showProfilePhoto, String showBio, String showStatus) {
         this.myId=myId;
         this.profileImage=profileImage;
         this.name=name;
@@ -41,6 +42,7 @@ public class Profile {
         this.followers=followers;
         this.following=following;
         this.posts=posts;
+        this.stories=stories;
         this.showLastSeen=showLastSeen;
         this.showProfilePhoto=showProfilePhoto;
         this.showBio=showBio;
@@ -64,6 +66,7 @@ public class Profile {
         this.followers=prof.followers;
         this.following=prof.following;
         this.posts=prof.posts;
+        this.stories=prof.stories;
         this.showLastSeen=prof.showLastSeen;
         this.showProfilePhoto=prof.showProfilePhoto;
         this.showBio=prof.showBio;
@@ -186,5 +189,13 @@ public class Profile {
 
     public void setTotalPosts(int totalPosts) {
         this.totalPosts = totalPosts;
+    }
+
+    public HashMap<String, Story> getStories() {
+        return stories;
+    }
+
+    public void setStories(HashMap<String, Story> stories) {
+        this.stories = stories;
     }
 }

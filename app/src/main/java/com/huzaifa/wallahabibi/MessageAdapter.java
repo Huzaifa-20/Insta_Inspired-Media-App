@@ -83,7 +83,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MyViewHo
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             show_message=itemView.findViewById(R.id.show_message);
-            profile_image=itemView.findViewById(R.id.profile_image);
+            profile_image=itemView.findViewById(R.id.profile_image_CItemL);
             text_seen=itemView.findViewById(R.id.text_seen);
         }
     }

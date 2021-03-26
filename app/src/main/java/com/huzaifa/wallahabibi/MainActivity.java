@@ -40,6 +40,9 @@ public class MainActivity extends AppCompatActivity {
     public static ArrayList<String> following;
     public static List<ProfilePosts> posts;
     public static List<Profile> chatContacts;
+    public static List<Story> allStories;
+    public static ArrayList<String> images;
+    public static ArrayList<String> users;
     //<-------------------------------->//
 
     //<----FIREBASE VARIABLES---->//
@@ -139,6 +142,9 @@ public class MainActivity extends AppCompatActivity {
             following=new ArrayList<>();
             posts=new ArrayList<>();
             chatContacts=new ArrayList<>();
+            allStories=new ArrayList<>();
+            images=new ArrayList<>();
+            users=new ArrayList<>();
 
             database=FirebaseDatabase.getInstance();
             database.setPersistenceEnabled(true);
@@ -210,7 +216,7 @@ public class MainActivity extends AppCompatActivity {
                         {
                             if( i+2<=(postUrls.size()-1) )
                             {
-                                posts.add(new ProfilePosts(postUrls.get(i), postUrls.get(i+2), postUrls.get(i+2)));
+                                posts.add(new ProfilePosts(postUrls.get(i), postUrls.get(i+1), postUrls.get(i+2)));
                                 i+=2;
                             }
                             else if( i+1==(postUrls.size()-1) )
@@ -224,10 +230,34 @@ public class MainActivity extends AppCompatActivity {
                             }
                         }
                     }
+                    if(currentUser.getStories()!=null)
+                    {
+                        Iterator it = currentUser.getStories().entrySet().iterator();
+                        while (it.hasNext())
+                        {
+                            Map.Entry pair = (Map.Entry)it.next();
+                            allStories.add((Story) pair.getValue());
+                            images.add(((Story) pair.getValue()).getStory());
+                            users.add(((Story) pair.getValue()).getUserName());
+                            it.remove(); // avoids a ConcurrentModificationException
+                        }
+                    }
                 }
                 else
                 {
                     chatContacts.add(new Profile(tempUser));
+                    if(tempUser.getStories()!=null)
+                    {
+                        Iterator it = tempUser.getStories().entrySet().iterator();
+                        while (it.hasNext())
+                        {
+                            Map.Entry pair = (Map.Entry)it.next();
+                            allStories.add((Story) pair.getValue());
+                            images.add(((Story) pair.getValue()).getStory());
+                            users.add(((Story) pair.getValue()).getUserName());
+                            it.remove(); // avoids a ConcurrentModificationException
+                        }
+                    }
                 }
             }
             @Override
