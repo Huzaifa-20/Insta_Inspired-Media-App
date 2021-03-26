@@ -34,7 +34,7 @@ public class MyFBMessaging extends FirebaseMessagingService {
     }
 
     private void sendNotification(RemoteMessage remoteMessage) {
-        String usr=remoteMessage.getData().get("usr");
+        String usr=remoteMessage.getData().get("user");
         String icon=remoteMessage.getData().get("icon");
         String title=remoteMessage.getData().get("title");
         String bod=remoteMessage.getData().get("body");
@@ -52,7 +52,7 @@ public class MyFBMessaging extends FirebaseMessagingService {
 
         PendingIntent pendingIntent=PendingIntent.getActivity(this, j, intent, PendingIntent.FLAG_ONE_SHOT);
 
-        Uri defaultSound= RingtoneManager.getActualDefaultRingtoneUri(this, RingtoneManager.TYPE_NOTIFICATION);
+        Uri defaultSound= RingtoneManager.getDefaultUri( RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder bilder=new NotificationCompat.Builder(this)
                 .setSmallIcon(Integer.parseInt(icon))
                 .setContentTitle(title)
