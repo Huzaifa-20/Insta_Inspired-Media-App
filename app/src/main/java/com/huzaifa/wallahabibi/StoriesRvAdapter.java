@@ -30,6 +30,12 @@ public class StoriesRvAdapter extends RecyclerView.Adapter<StoriesRvAdapter.View
     private ArrayList<String> images;
     private OnStoryListener onStoryListener;
 
+    public StoriesRvAdapter(Context c, ArrayList<String> images) {
+        this.c = c;
+        this.images = images;
+        this.onStoryListener=null;
+    }
+
     public StoriesRvAdapter(Context c, ArrayList<String> images, OnStoryListener onStoryListener) {
         this.c = c;
         this.images = images;
@@ -92,7 +98,9 @@ public class StoriesRvAdapter extends RecyclerView.Adapter<StoriesRvAdapter.View
 
         @Override
         public void onClick(View v) {
-            onStoryListener.onStoryClick(getAdapterPosition());
+            if (onStoryListener!=null) {
+                onStoryListener.onStoryClick(getAdapterPosition());
+            }
         }
     }
 
