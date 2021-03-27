@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
@@ -15,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.makeramen.roundedimageview.RoundedImageView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -37,18 +39,25 @@ public class StoriesRvAdapter extends RecyclerView.Adapter<StoriesRvAdapter.View
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v= LayoutInflater.from(parent.getContext()).inflate(R.layout.stories_row, parent, false);
-        ViewHolder voh=new ViewHolder(v, onStoryListener);
-        return voh;
+//        View v= LayoutInflater.from(parent.getContext()).inflate(R.layout.stories_row, parent, false);
+//        ViewHolder voh=new ViewHolder(v, onStoryListener);
+//        return voh;
+        return new ViewHolder(
+                LayoutInflater.from(parent.getContext()).inflate(
+                        R.layout.stories_row,
+                        parent,
+                        false
+                ),
+                onStoryListener
+        );
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
-        RequestOptions ro=new RequestOptions().placeholder(R.drawable.frame);
-
-        //TODO fix this ! ! !
-        Glide.with(c).load(images.get(position)).apply(ro).into(holder.lt);
+//        RequestOptions ro=new RequestOptions().placeholder(R.drawable.frame);
+        holder.setPostImage(images.get(position));
+//        Glide.with(c).load(images.get(position)).apply(ro).into(holder.lt);
 
     }
 
@@ -59,9 +68,8 @@ public class StoriesRvAdapter extends RecyclerView.Adapter<StoriesRvAdapter.View
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-//        RelativeLayout ll;
-//        CardView left;
-        ImageView lt;
+//        ImageView lt;
+        RoundedImageView postImageView;
         OnStoryListener onStoryListener;
 
 
@@ -73,9 +81,13 @@ public class StoriesRvAdapter extends RecyclerView.Adapter<StoriesRvAdapter.View
         }
 
         void connectViews(View v){
-//            ll=v.findViewById(R.id.stories_ll);
-//            left=v.findViewById(R.id.stories_card_left);
-            lt=v.findViewById(R.id.stories_img_left);
+            postImageView=itemView.findViewById(R.id.imagePost);
+//            lt=v.findViewById(R.id.stories_img_left);
+        }
+
+        void setPostImage(String url)
+        {
+            Picasso.get().load(url).into(postImageView);
         }
 
         @Override

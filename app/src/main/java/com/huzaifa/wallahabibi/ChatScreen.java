@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -130,7 +131,6 @@ public class ChatScreen extends AppCompatActivity {
         hashMap.put("seen",false);
 
         reference.child("Chats").push().setValue(hashMap);
-
         final String msg=message;
 
         reference=FirebaseDatabase.getInstance().getReference("Profiles").
@@ -185,12 +185,9 @@ public class ChatScreen extends AppCompatActivity {
 
                                 @Override
                                 public void onFailure(Call<MyResponse> call, Throwable t) {
-
                                 }
                             });
                 }
-
-
             }
 
             @Override

@@ -20,9 +20,6 @@ import androidx.fragment.app.FragmentTransaction;
 
 public class AppSettingFragment extends Fragment {
 
-    public static boolean allowCamera;
-    public static boolean allowMicrophone;
-
     ImageButton backArrow;
     Switch pushNotifications;
     Switch cameraPermission;
@@ -57,11 +54,11 @@ public class AppSettingFragment extends Fragment {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(cameraPermission.isChecked()==true){
-                    allowCamera=true;
+                    MainActivity.allowCamera=true;
                     Toast.makeText(c, "Camera permission granted", Toast.LENGTH_LONG).show();
                 }
                 else{
-                    allowCamera=false;
+                    MainActivity.allowCamera=false;
                     Toast.makeText(c, "camera permission denied", Toast.LENGTH_LONG).show();
                 }
             }
@@ -71,11 +68,11 @@ public class AppSettingFragment extends Fragment {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(micPermission.isChecked()==true){
-                    allowMicrophone=true;
+                    MainActivity.allowMicrophone=true;
                     Toast.makeText(c, "Mic permission granted", Toast.LENGTH_LONG).show();
                 }
                 else{
-                    allowMicrophone=false;
+                    MainActivity.allowMicrophone=false;
                     Toast.makeText(c, "Mic permission denied", Toast.LENGTH_LONG).show();
                 }
             }
@@ -87,5 +84,23 @@ public class AppSettingFragment extends Fragment {
         pushNotifications=v.findViewById(R.id.pushNotifications_FAS);
         cameraPermission=v.findViewById(R.id.cameraPermission_FAS);
         micPermission=v.findViewById(R.id.microphonePermission_FAS);
+
+        if(MainActivity.allowCamera)
+        {
+            cameraPermission.setChecked(true);
+        }
+        else
+        {
+            cameraPermission.setChecked(false);
+        }
+
+        if(MainActivity.allowMicrophone)
+        {
+            micPermission.setChecked(true);
+        }
+        else
+        {
+            micPermission.setChecked(false);
+        }
     }
 }

@@ -14,6 +14,12 @@ public class Story {
         this.time = time;
     }
 
+    public Story(Story story) {
+        this.userName = story.userName;
+        this.story = story.story;
+        this.time = story.time;
+    }
+
     public Story(String story, String time) {
         this.story = story;
         this.time = time;

@@ -2,6 +2,7 @@ package com.huzaifa.wallahabibi;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,14 +37,18 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.io.ByteArrayOutputStream;
 import java.lang.ref.WeakReference;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import omari.hamza.storyview.StoryView;
 import omari.hamza.storyview.model.MyStory;
@@ -70,6 +76,25 @@ public class StoriesFragment extends Fragment implements StoriesRvAdapter.OnStor
         v = inflater.inflate(R.layout.fragment_stories, container, false);
         c = container.getContext();
 
+        clearData();
+        System.out.println("\n\n<========================================1)CHAT CONTACTS: "+MainActivity.chatContacts.size()+"==============================================================>\n\n");
+        for(int i=0;i<MainActivity.chatContacts.size();i++)
+        {
+            System.out.println(i+") Name: "+MainActivity.chatContacts.get(i).getName());
+        }
+
+        System.out.println("\n\n<========================================1)USERS: "+MainActivity.users.size()+"==============================================================>\n\n");
+        for(int i=0;i<MainActivity.users.size();i++)
+        {
+            System.out.println(i+") Name: "+MainActivity.users.get(i));
+        }
+
+        System.out.println("\n\n<========================================1)STORIES: "+MainActivity.images.size()+"==============================================================>\n\n");
+        for(int i=0;i<MainActivity.images.size();i++)
+        {
+            System.out.println(i+") Url: "+MainActivity.images.get(i));
+        }
+
         connectViews(v);
         setListeners(v);
         initRV(v, c);
@@ -80,8 +105,25 @@ public class StoriesFragment extends Fragment implements StoriesRvAdapter.OnStor
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(intent, 01);
+                if(MainActivity.allowCamera==true && MainActivity.allowMicrophone==true)
+                {
+
+                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    if(intent.resolveActivity(c.getPackageManager())!=null)
+                    {
+                        startActivityForResult(intent, 01);
+                    }
+                    else
+                    {
+                        Toast.makeText(c, "Nopee", Toast.LENGTH_SHORT).show();
+                    }
+
+                }
+                else
+                {
+                    Toast.makeText(c, "Allow Camera and Microphone access from Settings>App Settings.", Toast.LENGTH_LONG).show();
+                }
+
             }
         });
 
@@ -89,22 +131,34 @@ public class StoriesFragment extends Fragment implements StoriesRvAdapter.OnStor
             @Override
             public void onClick(View v) {
                 update.setVisibility(View.INVISIBLE);
+//                progressBar.setVisibility(View.VISIBLE);
                 initRV(view,c);
             }
         });
     }
 
+    //Initialise recyclerview//
     private void initRV(View v, Context c) {
-        RecyclerView rv = v.findViewById(R.id.stories_rv);
+//        RecyclerView rv = v.findViewById(R.id.stories_rv);
+//
+//        getFrontImages();
+//        StoriesRvAdapter sada = new StoriesRvAdapter(c, frontImages, this);
+//        rv.setAdapter(sada);
+//
+//        StaggeredGridLayoutManager stag = new StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL);
+//        rv.setLayoutManager(stag);
 
+        RecyclerView postRecyclerView=v.findViewById(R.id.postsRecyclerView);
         getFrontImages();
-        StoriesRvAdapter sada = new StoriesRvAdapter(c, frontImages, this);
-        rv.setAdapter(sada);
+        postRecyclerView.setLayoutManager(
+                new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL)
+        );
 
-        StaggeredGridLayoutManager stag = new StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL);
-        rv.setLayoutManager(stag);
+        postRecyclerView.setAdapter(new StoriesRvAdapter(c,frontImages,this));
+
     }
 
+    //Gets the very first picture of a user to display on StoriesFragment//
     private void getFrontImages()
     {
         if(MainActivity.images.size()==1)
@@ -140,20 +194,16 @@ public class StoriesFragment extends Fragment implements StoriesRvAdapter.OnStor
         frontImagesUsers=new ArrayList<>();
     }
 
+    //Function runs as soon as you tap on the story of a particular user//
     @Override
     public void onStoryClick(int pos) {
         initStoryView(v, c, pos);
     }
 
+    //Opens up all the stories of the person you tapped on in StoryFragment//
     private void initStoryView(View v, Context c, int pos) {
         myStories = new ArrayList<>();
         myStories=getMyStories(pos);
-
-        //TODO so our images will be like an obj of a class
-        //      where class holds a thumbnail and ref to actual user's stories
-        //      currently, the thumbnail itslef is being provided as story but later
-        //      implement such that the myStories list is populated with correct stories.
-
 
         String name=frontImagesUsers.get(pos);
         String url="";
@@ -176,12 +226,13 @@ public class StoriesFragment extends Fragment implements StoriesRvAdapter.OnStor
                 .setStoriesList(myStories)
                 .setStoryDuration(5000)
                 .setTitleText(name)
-                .setSubtitleText("Dummy sub title")
+                .setSubtitleText("-")
                 .setTitleLogoUrl(url)
                 .build()
                 .show();
     }
 
+    //Returns all stories of a single user that are younger than 24 hours//
     private ArrayList<MyStory> getMyStories(int pos)
     {
         ArrayList<MyStory> myStories=new ArrayList<>();
@@ -206,26 +257,52 @@ public class StoriesFragment extends Fragment implements StoriesRvAdapter.OnStor
         return myStories;
     }
 
+    //Calculates if story is older than 24 hours//
     private boolean checkStoryDate(String url)
     {
         for(int i=0;i<MainActivity.allStories.size();i++)
         {
-            if(url.equals(MainActivity.allStories.get(i)))
+            if(url.equals(MainActivity.allStories.get(i).getStory()))
             {
                 String time=MainActivity.allStories.get(i).getTime();
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault());
+                String currentDateandTime = sdf.format(new Date());
+                try {
+                    Date date=sdf.parse(time);
+                    Date currentDate=sdf.parse(currentDateandTime);
 
+                    long difference_In_Time =currentDate.getTime() - date.getTime();
+                    long difference_In_Hours = (difference_In_Time / (1000 * 60 * 60));
+
+                    if(difference_In_Hours<24)
+                    {
+                        return true;
+                    }
+                }
+                catch (ParseException e){
+                    e.printStackTrace();;
+                }
             }
         }
         return false;
     }
 
+    //Updates the stories in MainActicity variable "allStories" and stores new story on firebase//
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK && requestCode == 01) {
-            imageDataUri = data.getData();
-//            Log.d("cheq1", "onActivityResult data imgDatauri: "+imageDataUri.toString());
-            System.out.println("Working"+imageDataUri.toString()+" or not?");
+        if (resultCode == RESULT_OK && requestCode == 01 ) {
+            Bundle bundle=data.getExtras();
+            Bitmap img=(Bitmap)bundle.get("data");
+
+            if(data.getData()==null)
+            {
+                imageDataUri = getImageUri(c.getApplicationContext(), img);
+            }
+            else
+            {
+                imageDataUri = data.getData();
+            }
 
             SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault());
             String currentDateandTime = sdf.format(new Date());
@@ -250,22 +327,33 @@ public class StoriesFragment extends Fragment implements StoriesRvAdapter.OnStor
 
                                     reference.child("stories").push().setValue(hashMap);
 
-                                    MainActivity.allStories.add(new Story(MainActivity.currentUser.getName(),
-                                            uri.toString(), currentDateandTime));
+                                    MainActivity.allStories.add(new Story(MainActivity.currentUser.getName(), uri.toString(), currentDateandTime));
                                 }
                             });
                         }
                     });
-            Toast.makeText(c, "Story Posted!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(c, "Posting Story...", Toast.LENGTH_SHORT).show();
+        }
+        else{
+            Toast.makeText(c, "Oops", Toast.LENGTH_SHORT).show();
         }
     }
 
+    public Uri getImageUri(Context inContext, Bitmap inImage) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
+        return Uri.parse(path);
+    }
+
+    //Immediately retrieves all the stories//
     @Override
     public void onStart() {
         super.onStart();
         fetchStories();
     }
 
+    //Constantly runs to see if new story is added by any user//
     private void fetchStories()
     {
         DatabaseReference reference=FirebaseDatabase.getInstance().getReference("Profiles");
@@ -277,26 +365,82 @@ public class StoriesFragment extends Fragment implements StoriesRvAdapter.OnStor
 
                     if(profile.getStories()!=null)
                     {
-                        Iterator it = profile.getStories().entrySet().iterator();
-                        while (it.hasNext())
+                        if(profile.getMyId().equals(MainActivity.currentUser.getMyId()) || MainActivity.users.contains(profile.getMyId()))
                         {
-                            Map.Entry pair = (Map.Entry)it.next();
-                            if(!(MainActivity.images.contains(((Story) pair.getValue()).getStory())))
+                            Iterator it = profile.getStories().entrySet().iterator();
+                            while (it.hasNext())
                             {
-                                MainActivity.images.add(((Story) pair.getValue()).getStory());
-                                MainActivity.users.add(((Story) pair.getValue()).getUserName());
-                                update.setVisibility(View.VISIBLE);
+                                Map.Entry pair = (Map.Entry)it.next();
+                                if(!(MainActivity.images.contains(((Story) pair.getValue()).getStory())))
+                                {
+                                    MainActivity.images.add(((Story) pair.getValue()).getStory());
+                                    MainActivity.users.add(((Story) pair.getValue()).getUserName());
+                                    update.setVisibility(View.VISIBLE);
+                                }
+                                it.remove(); // avoids a ConcurrentModificationException
                             }
-                            it.remove(); // avoids a ConcurrentModificationException
                         }
                     }
                 }
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
         });
+    }
+
+
+    private void clearData()
+    {
+        for(int i=0;i<MainActivity.allChatContacts.size();i++)
+        {
+            if(MainActivity.followers.contains(MainActivity.allChatContacts.get(i).getMyId()) ||
+                    MainActivity.following.contains(MainActivity.allChatContacts.get(i).getMyId()))
+            {
+                if(!MainActivity.chatContacts.contains(MainActivity.allChatContacts.get(i)))
+                {
+                    MainActivity.chatContacts.add(MainActivity.allChatContacts.get(i));
+                    if(MainActivity.allChatContacts.get(i).getStories()!=null)
+                    {
+                        Iterator it =MainActivity.allChatContacts.get(i).getStories().entrySet().iterator();
+                        while (it.hasNext())
+                        {
+                            Map.Entry pair = (Map.Entry)it.next();
+                            MainActivity.allStories.add((Story) pair.getValue());
+                            MainActivity.images.add(((Story) pair.getValue()).getStory());
+                            MainActivity.users.add(((Story) pair.getValue()).getUserName());
+                            it.remove(); // avoids a ConcurrentModificationException
+                        }
+                    }
+                }
+            }
+        }
+//        String name;
+//        ArrayList<Integer> indexes=new ArrayList<>();
+//        for(int i=0;i<chatContacts.size();i++)
+//        {
+//            if( (!followers.contains(chatContacts.get(i).getMyId())) || (!following.contains(chatContacts.get(i).getMyId())) )
+//            {
+//                name=chatContacts.get(i).getName();
+//                for(int j=0;j<users.size();j++)
+//                {
+//                    if(users.get(j).equals(name))
+//                    {
+//                        indexes.add(j);
+//                    }
+//                }
+//                for(int j=0;j<indexes.size();j++)
+//                {
+//                    Log.d("Removing","User: "+users.get(indexes.get(i)-1));
+//                    Log.d("Removing","Images: "+images.get(indexes.get(i)-1));
+//                    users.remove(indexes.get(i)-i);
+//                    images.remove(indexes.get(i)-i);
+//                    allStories.remove(indexes.get(i)-i);
+//                }
+//                chatContacts.remove(i);
+//                i-=1;
+//            }
+//        }
     }
 }

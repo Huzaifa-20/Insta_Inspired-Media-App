@@ -2,6 +2,7 @@ package com.huzaifa.wallahabibi;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.widget.ProgressBar;
 
 import java.util.ArrayList;
 import java.util.HashMap;

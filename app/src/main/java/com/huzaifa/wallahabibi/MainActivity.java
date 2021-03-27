@@ -40,9 +40,12 @@ public class MainActivity extends AppCompatActivity {
     public static ArrayList<String> following;
     public static List<ProfilePosts> posts;
     public static List<Profile> chatContacts;
+    public static List<Profile> allChatContacts;
     public static List<Story> allStories;
     public static ArrayList<String> images;
     public static ArrayList<String> users;
+    public static boolean allowCamera;
+    public static boolean allowMicrophone;
     //<-------------------------------->//
 
     //<----FIREBASE VARIABLES---->//
@@ -142,12 +145,15 @@ public class MainActivity extends AppCompatActivity {
             following=new ArrayList<>();
             posts=new ArrayList<>();
             chatContacts=new ArrayList<>();
+            allChatContacts=new ArrayList<>();
             allStories=new ArrayList<>();
             images=new ArrayList<>();
             users=new ArrayList<>();
+            allowCamera=true;
+            allowMicrophone=true;
 
             database=FirebaseDatabase.getInstance();
-            database.setPersistenceEnabled(true);
+//            database.setPersistenceEnabled(true);
             reference=database.getReference("Profiles");
 
             ExampleRunnable exampleRunnable=new ExampleRunnable();
@@ -186,7 +192,9 @@ public class MainActivity extends AppCompatActivity {
                         Iterator it = currentUser.getFollowers().entrySet().iterator();
                         while (it.hasNext())
                         {
+
                             Map.Entry pair = (Map.Entry)it.next();
+                            System.out.println("\n\n<========================================FOLLOWERS: "+pair.getValue().toString()+"==============================================================>\n\n");
                             followers.add(pair.getValue().toString());
                             it.remove(); // avoids a ConcurrentModificationException
                         }
@@ -245,19 +253,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 else
                 {
-                    chatContacts.add(new Profile(tempUser));
-                    if(tempUser.getStories()!=null)
-                    {
-                        Iterator it = tempUser.getStories().entrySet().iterator();
-                        while (it.hasNext())
-                        {
-                            Map.Entry pair = (Map.Entry)it.next();
-                            allStories.add((Story) pair.getValue());
-                            images.add(((Story) pair.getValue()).getStory());
-                            users.add(((Story) pair.getValue()).getUserName());
-                            it.remove(); // avoids a ConcurrentModificationException
-                        }
-                    }
+                    allChatContacts.add(new Profile(tempUser));
                 }
             }
             @Override
