@@ -22,7 +22,10 @@ import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.Locale;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 public class homeScreen extends AppCompatActivity {
 
@@ -34,6 +37,8 @@ public class homeScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_screen);
 
+        clearData();
+        Toast.makeText(this, "Loading Data...", Toast.LENGTH_SHORT).show();
         connectViews();
     }
 
@@ -67,4 +72,31 @@ public class homeScreen extends AppCompatActivity {
             return true;
         }
     };
+
+    public static void clearData()
+    {
+        for(int i=0;i<MainActivity.allChatContacts.size();i++)
+        {
+            if(MainActivity.followers.contains(MainActivity.allChatContacts.get(i).getMyId()) ||
+                    MainActivity.following.contains(MainActivity.allChatContacts.get(i).getMyId()))
+            {
+                if(!MainActivity.chatContacts.contains(MainActivity.allChatContacts.get(i)))
+                {
+                    MainActivity.chatContacts.add(MainActivity.allChatContacts.get(i));
+                    if(MainActivity.allChatContacts.get(i).getStories()!=null)
+                    {
+                        Iterator it =MainActivity.allChatContacts.get(i).getStories().entrySet().iterator();
+                        while (it.hasNext())
+                        {
+                            Map.Entry pair = (Map.Entry)it.next();
+                            MainActivity.allStories.add((Story) pair.getValue());
+                            MainActivity.images.add(((Story) pair.getValue()).getStory());
+                            MainActivity.users.add(((Story) pair.getValue()).getUserName());
+                            it.remove(); // avoids a ConcurrentModificationException
+                        }
+                    }
+                }
+            }
+        }
+    }
 }

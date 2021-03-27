@@ -76,7 +76,6 @@ public class StoriesFragment extends Fragment implements StoriesRvAdapter.OnStor
         v = inflater.inflate(R.layout.fragment_stories, container, false);
         c = container.getContext();
 
-        clearData();
         System.out.println("\n\n<========================================1)CHAT CONTACTS: "+MainActivity.chatContacts.size()+"==============================================================>\n\n");
         for(int i=0;i<MainActivity.chatContacts.size();i++)
         {
@@ -388,59 +387,5 @@ public class StoriesFragment extends Fragment implements StoriesRvAdapter.OnStor
 
             }
         });
-    }
-
-
-    private void clearData()
-    {
-        for(int i=0;i<MainActivity.allChatContacts.size();i++)
-        {
-            if(MainActivity.followers.contains(MainActivity.allChatContacts.get(i).getMyId()) ||
-                    MainActivity.following.contains(MainActivity.allChatContacts.get(i).getMyId()))
-            {
-                if(!MainActivity.chatContacts.contains(MainActivity.allChatContacts.get(i)))
-                {
-                    MainActivity.chatContacts.add(MainActivity.allChatContacts.get(i));
-                    if(MainActivity.allChatContacts.get(i).getStories()!=null)
-                    {
-                        Iterator it =MainActivity.allChatContacts.get(i).getStories().entrySet().iterator();
-                        while (it.hasNext())
-                        {
-                            Map.Entry pair = (Map.Entry)it.next();
-                            MainActivity.allStories.add((Story) pair.getValue());
-                            MainActivity.images.add(((Story) pair.getValue()).getStory());
-                            MainActivity.users.add(((Story) pair.getValue()).getUserName());
-                            it.remove(); // avoids a ConcurrentModificationException
-                        }
-                    }
-                }
-            }
-        }
-//        String name;
-//        ArrayList<Integer> indexes=new ArrayList<>();
-//        for(int i=0;i<chatContacts.size();i++)
-//        {
-//            if( (!followers.contains(chatContacts.get(i).getMyId())) || (!following.contains(chatContacts.get(i).getMyId())) )
-//            {
-//                name=chatContacts.get(i).getName();
-//                for(int j=0;j<users.size();j++)
-//                {
-//                    if(users.get(j).equals(name))
-//                    {
-//                        indexes.add(j);
-//                    }
-//                }
-//                for(int j=0;j<indexes.size();j++)
-//                {
-//                    Log.d("Removing","User: "+users.get(indexes.get(i)-1));
-//                    Log.d("Removing","Images: "+images.get(indexes.get(i)-1));
-//                    users.remove(indexes.get(i)-i);
-//                    images.remove(indexes.get(i)-i);
-//                    allStories.remove(indexes.get(i)-i);
-//                }
-//                chatContacts.remove(i);
-//                i-=1;
-//            }
-//        }
     }
 }

@@ -153,13 +153,12 @@ public class MainActivity extends AppCompatActivity {
             allowMicrophone=true;
 
             database=FirebaseDatabase.getInstance();
-//            database.setPersistenceEnabled(true);
+            database.setPersistenceEnabled(true);
             reference=database.getReference("Profiles");
 
             ExampleRunnable exampleRunnable=new ExampleRunnable();
             new Thread(exampleRunnable).start();
 
-            Toast.makeText(MainActivity.this, " You're already signed in!", Toast.LENGTH_SHORT).show();
             Intent intent=new Intent(MainActivity.this,homeScreen.class);
             startActivity(intent);
         }
@@ -175,6 +174,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void run() {
             fetchData();
+//            clearData();
         }
     }
 
@@ -274,4 +274,31 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+//    public static void clearData()
+//    {
+//        for(int i=0;i<MainActivity.allChatContacts.size();i++)
+//        {
+//            if(MainActivity.followers.contains(MainActivity.allChatContacts.get(i).getMyId()) ||
+//                    MainActivity.following.contains(MainActivity.allChatContacts.get(i).getMyId()))
+//            {
+//                if(!MainActivity.chatContacts.contains(MainActivity.allChatContacts.get(i)))
+//                {
+//                    MainActivity.chatContacts.add(MainActivity.allChatContacts.get(i));
+//                    if(MainActivity.allChatContacts.get(i).getStories()!=null)
+//                    {
+//                        Iterator it =MainActivity.allChatContacts.get(i).getStories().entrySet().iterator();
+//                        while (it.hasNext())
+//                        {
+//                            Map.Entry pair = (Map.Entry)it.next();
+//                            MainActivity.allStories.add((Story) pair.getValue());
+//                            MainActivity.images.add(((Story) pair.getValue()).getStory());
+//                            MainActivity.users.add(((Story) pair.getValue()).getUserName());
+//                            it.remove(); // avoids a ConcurrentModificationException
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//    }
 }
