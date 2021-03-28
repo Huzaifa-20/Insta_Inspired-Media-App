@@ -44,6 +44,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
@@ -69,30 +70,15 @@ public class StoriesFragment extends Fragment implements StoriesRvAdapter.OnStor
     private ArrayList<String> frontImages;
     private ArrayList<String> frontImagesUsers;
     private Uri imageDataUri;
+    RecyclerView postRecyclerView;
+    StoriesRvAdapter adapter;
+    String currentDateandTime;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.fragment_stories, container, false);
         c = container.getContext();
-
-        System.out.println("\n\n<========================================1)CHAT CONTACTS: "+MainActivity.chatContacts.size()+"==============================================================>\n\n");
-        for(int i=0;i<MainActivity.chatContacts.size();i++)
-        {
-            System.out.println(i+") Name: "+MainActivity.chatContacts.get(i).getName());
-        }
-
-        System.out.println("\n\n<========================================1)USERS: "+MainActivity.users.size()+"==============================================================>\n\n");
-        for(int i=0;i<MainActivity.users.size();i++)
-        {
-            System.out.println(i+") Name: "+MainActivity.users.get(i));
-        }
-
-        System.out.println("\n\n<========================================1)STORIES: "+MainActivity.images.size()+"==============================================================>\n\n");
-        for(int i=0;i<MainActivity.images.size();i++)
-        {
-            System.out.println(i+") Url: "+MainActivity.images.get(i));
-        }
 
         connectViews(v);
         setListeners(v);
@@ -114,7 +100,7 @@ public class StoriesFragment extends Fragment implements StoriesRvAdapter.OnStor
                     }
                     else
                     {
-                        Toast.makeText(c, "Nopee", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(c, "Nope", Toast.LENGTH_SHORT).show();
                     }
 
                 }
@@ -130,65 +116,51 @@ public class StoriesFragment extends Fragment implements StoriesRvAdapter.OnStor
             @Override
             public void onClick(View v) {
                 update.setVisibility(View.INVISIBLE);
-//                progressBar.setVisibility(View.VISIBLE);
-                initRV(view,c);
+                adapter.notifyDataSetChanged();
             }
         });
     }
 
     //Initialise recyclerview//
     private void initRV(View v, Context c) {
-//        RecyclerView rv = v.findViewById(R.id.stories_rv);
-//
-//        getFrontImages();
-//        StoriesRvAdapter sada = new StoriesRvAdapter(c, frontImages, this);
-//        rv.setAdapter(sada);
-//
-//        StaggeredGridLayoutManager stag = new StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL);
-//        rv.setLayoutManager(stag);
-
-        RecyclerView postRecyclerView=v.findViewById(R.id.postsRecyclerView);
         getFrontImages();
         postRecyclerView.setLayoutManager(
                 new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL)
         );
-
-        postRecyclerView.setAdapter(new StoriesRvAdapter(c,frontImages,this));
+        adapter=new StoriesRvAdapter(c,frontImages,this);
+        postRecyclerView.setAdapter(adapter);
 
     }
 
     //Gets the very first picture of a user to display on StoriesFragment//
     private void getFrontImages()
     {
-        if(MainActivity.images.size()==1)
+        frontImagesUsers.clear();
+        frontImages.clear();
+
+        HashSet<String> hashSet = new HashSet<String>(MainActivity.users);
+        ArrayList<String> uniqueUsers=new ArrayList<String>(hashSet);
+        ArrayList<Integer> indexes=new ArrayList<>();
+
+        for(int i=0;i<uniqueUsers.size();i++)
         {
-            frontImages=MainActivity.images;
-            frontImagesUsers=MainActivity.users;
+            indexes.add(MainActivity.users.indexOf(uniqueUsers.get(i)));
         }
-        else if(MainActivity.images.size()>1) {
-            for (int i = 0; i < MainActivity.images.size() - 1; i++) {
-                if (!MainActivity.users.get(i).equals(MainActivity.users.get(i + 1))) {
-                    frontImages.add(MainActivity.images.get(i));
-                    frontImagesUsers.add(MainActivity.users.get(i));
-                    if (i == MainActivity.images.size() - 2) {
-                        frontImages.add(MainActivity.images.get(i + 1));
-                        frontImagesUsers.add(MainActivity.users.get(i + 1));
-                    }
-                }
-                if(i==MainActivity.images.size()-2 && frontImages.size()==0)
-                {
-                    frontImages.add(MainActivity.images.get(i));
-                    frontImagesUsers.add(MainActivity.users.get(i));
-                }
-            }
+        for(int i=0;i<indexes.size();i++)
+        {
+            frontImages.add(MainActivity.images.get(indexes.get(i)));
+            frontImagesUsers.add(MainActivity.users.get(indexes.get(i)));
         }
     }
 
     private void connectViews(View v) {
+        postRecyclerView=v.findViewById(R.id.postsRecyclerView);
         stories = v.findViewById(R.id.stories_stories);
         add = v.findViewById(R.id.stories_add_btn);
         update = v.findViewById(R.id.updateButton_FS);
 
+
+        currentDateandTime="";
         frontImages=new ArrayList<>();
         frontImagesUsers=new ArrayList<>();
     }
@@ -225,7 +197,7 @@ public class StoriesFragment extends Fragment implements StoriesRvAdapter.OnStor
                 .setStoriesList(myStories)
                 .setStoryDuration(5000)
                 .setTitleText(name)
-                .setSubtitleText("-")
+                .setSubtitleText("")
                 .setTitleLogoUrl(url)
                 .build()
                 .show();
@@ -264,22 +236,29 @@ public class StoriesFragment extends Fragment implements StoriesRvAdapter.OnStor
             if(url.equals(MainActivity.allStories.get(i).getStory()))
             {
                 String time=MainActivity.allStories.get(i).getTime();
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault());
-                String currentDateandTime = sdf.format(new Date());
-                try {
-                    Date date=sdf.parse(time);
-                    Date currentDate=sdf.parse(currentDateandTime);
-
-                    long difference_In_Time =currentDate.getTime() - date.getTime();
-                    long difference_In_Hours = (difference_In_Time / (1000 * 60 * 60));
-
-                    if(difference_In_Hours<24)
-                    {
-                        return true;
-                    }
+                if(time.equals(""))
+                {
+                    return true;
                 }
-                catch (ParseException e){
-                    e.printStackTrace();;
+                else
+                {
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault());
+                    String currentDateandTime = sdf.format(new Date());
+                    try {
+                        Date date=sdf.parse(time);
+                        Date currentDate=sdf.parse(currentDateandTime);
+
+                        long difference_In_Time =currentDate.getTime() - date.getTime();
+                        long difference_In_Hours = (difference_In_Time / (1000 * 60 * 60));
+
+                        if(difference_In_Hours<24)
+                        {
+                            return true;
+                        }
+                    }
+                    catch (ParseException e){
+                        e.printStackTrace();;
+                    }
                 }
             }
         }
@@ -304,7 +283,7 @@ public class StoriesFragment extends Fragment implements StoriesRvAdapter.OnStor
             }
 
             SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault());
-            String currentDateandTime = sdf.format(new Date());
+            currentDateandTime = sdf.format(new Date());
 
             StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("StoryImages/" + MainActivity.currentUser.getMyId()
                     +"_"+currentDateandTime+ ".jpg");
@@ -325,8 +304,6 @@ public class StoriesFragment extends Fragment implements StoriesRvAdapter.OnStor
                                     hashMap.put("time", currentDateandTime);
 
                                     reference.child("stories").push().setValue(hashMap);
-
-                                    MainActivity.allStories.add(new Story(MainActivity.currentUser.getName(), uri.toString(), currentDateandTime));
                                 }
                             });
                         }
@@ -364,7 +341,8 @@ public class StoriesFragment extends Fragment implements StoriesRvAdapter.OnStor
 
                     if(profile.getStories()!=null)
                     {
-                        if(profile.getMyId().equals(MainActivity.currentUser.getMyId()) || MainActivity.users.contains(profile.getMyId()))
+                        if(profile.getMyId().equals(MainActivity.currentUser.getMyId()) || MainActivity.followers.contains(profile.getMyId())
+                                || MainActivity.following.contains(profile.getMyId()))
                         {
                             Iterator it = profile.getStories().entrySet().iterator();
                             while (it.hasNext())
@@ -374,6 +352,8 @@ public class StoriesFragment extends Fragment implements StoriesRvAdapter.OnStor
                                 {
                                     MainActivity.images.add(((Story) pair.getValue()).getStory());
                                     MainActivity.users.add(((Story) pair.getValue()).getUserName());
+                                    MainActivity.allStories.add(new Story((((Story) pair.getValue()).getUserName()),
+                                            ((Story) pair.getValue()).getStory(), currentDateandTime));
                                     update.setVisibility(View.VISIBLE);
                                 }
                                 it.remove(); // avoids a ConcurrentModificationException

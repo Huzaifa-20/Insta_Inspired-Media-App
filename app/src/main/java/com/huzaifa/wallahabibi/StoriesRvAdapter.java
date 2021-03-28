@@ -10,8 +10,10 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -45,9 +47,6 @@ public class StoriesRvAdapter extends RecyclerView.Adapter<StoriesRvAdapter.View
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-//        View v= LayoutInflater.from(parent.getContext()).inflate(R.layout.stories_row, parent, false);
-//        ViewHolder voh=new ViewHolder(v, onStoryListener);
-//        return voh;
         return new ViewHolder(
                 LayoutInflater.from(parent.getContext()).inflate(
                         R.layout.stories_row,
@@ -63,6 +62,7 @@ public class StoriesRvAdapter extends RecyclerView.Adapter<StoriesRvAdapter.View
 
 //        RequestOptions ro=new RequestOptions().placeholder(R.drawable.frame);
         holder.setPostImage(images.get(position));
+
 //        Glide.with(c).load(images.get(position)).apply(ro).into(holder.lt);
 
     }
@@ -74,7 +74,6 @@ public class StoriesRvAdapter extends RecyclerView.Adapter<StoriesRvAdapter.View
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-//        ImageView lt;
         RoundedImageView postImageView;
         OnStoryListener onStoryListener;
 
@@ -100,6 +99,12 @@ public class StoriesRvAdapter extends RecyclerView.Adapter<StoriesRvAdapter.View
         public void onClick(View v) {
             if (onStoryListener!=null) {
                 onStoryListener.onStoryClick(getAdapterPosition());
+            }
+            else
+            {
+                trendingSelectedFragment ts=new trendingSelectedFragment();
+                FragmentTransaction ft = ((FragmentActivity)c).getSupportFragmentManager().beginTransaction();
+                ft.replace(R.id.fragment_container_AHS,ts).commit();
             }
         }
     }

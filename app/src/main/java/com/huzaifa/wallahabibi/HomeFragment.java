@@ -33,12 +33,12 @@ public class HomeFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        v=inflater.inflate(R.layout.fragment_trending,container,false);
+        v=inflater.inflate(R.layout.fragment_home,container,false);
 
         c = container.getContext();
 
         connectViews(v);
-//        setListeners(v);
+        setListeners();
         initRV(v, c);
         return v;
     }
@@ -56,6 +56,16 @@ public class HomeFragment extends Fragment {
         trendingVid=v.findViewById(R.id.trendingvids);
         seeMore=v.findViewById(R.id.seemore);
 
+    }
+
+    private void setListeners()
+    {
+        searchBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 
     private void initRV(View v, Context c) {

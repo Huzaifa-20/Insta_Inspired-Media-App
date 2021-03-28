@@ -77,6 +77,20 @@ public class AppSettingFragment extends Fragment {
                 }
             }
         });
+
+        pushNotifications.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(pushNotifications.isChecked()==true){
+                    MainActivity.allowPushNotifications=true;
+                    Toast.makeText(c, "Push Notifications permission granted", Toast.LENGTH_LONG).show();
+                }
+                else{
+                    MainActivity.allowPushNotifications=false;
+                    Toast.makeText(c, "Push Notifications permission denied", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
     }
 
     private void connectViews(View v) {
@@ -101,6 +115,14 @@ public class AppSettingFragment extends Fragment {
         else
         {
             micPermission.setChecked(false);
+        }
+        if(MainActivity.allowPushNotifications)
+        {
+            pushNotifications.setChecked(true);
+        }
+        else
+        {
+            pushNotifications.setChecked(false);
         }
     }
 }

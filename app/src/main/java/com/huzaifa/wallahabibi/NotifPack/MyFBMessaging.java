@@ -18,6 +18,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.huzaifa.wallahabibi.ChatScreen;
+import com.huzaifa.wallahabibi.MainActivity;
 
 public class MyFBMessaging extends FirebaseMessagingService {
 
@@ -34,7 +35,10 @@ public class MyFBMessaging extends FirebaseMessagingService {
                 sendOAndAbvNotificaion(remoteMessage);
             }
             else {
-                sendNotification(remoteMessage);
+                if(MainActivity.allowPushNotifications)
+                {
+                    sendNotification(remoteMessage);
+                }
             }
         }
     }
@@ -69,8 +73,10 @@ public class MyFBMessaging extends FirebaseMessagingService {
             i=j;
         }
 
-        oreoAndAboveNotifications1.getManager().notify(i, bilder.build());
-
+        if(MainActivity.allowPushNotifications)
+        {
+            oreoAndAboveNotifications1.getManager().notify(i, bilder.build());
+        }
 
     }
 
@@ -110,7 +116,11 @@ public class MyFBMessaging extends FirebaseMessagingService {
             i=j;
         }
 
-        notifi.notify(i, bilder.build());
+        if(MainActivity.allowPushNotifications)
+        {
+            notifi.notify(i, bilder.build());
+        }
+
 
     }
 }
