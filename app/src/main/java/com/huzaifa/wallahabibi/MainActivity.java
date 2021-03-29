@@ -47,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
     public static boolean allowCamera;
     public static boolean allowMicrophone;
     public static boolean allowPushNotifications;
+    public static boolean chooseImage;
     //<-------------------------------->//
 
     //<----FIREBASE VARIABLES---->//
@@ -153,6 +154,7 @@ public class MainActivity extends AppCompatActivity {
             allowCamera=true;
             allowMicrophone=true;
             allowPushNotifications=true;
+            chooseImage=true;
 
             database=FirebaseDatabase.getInstance();
             database.setPersistenceEnabled(true);

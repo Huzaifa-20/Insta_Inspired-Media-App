@@ -1,8 +1,12 @@
 package com.huzaifa.wallahabibi;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,11 +44,16 @@ public class ProfileFragment extends Fragment {
 
     ImageButton settings;
     ImageButton editProfile;
+    ImageButton addImage;
+    ImageButton addVideo;
     CircleImageView profilePicture;
     TextView name;
     TextView bio;
     TextView followers;
     TextView following;
+
+    Uri imageUri;
+    Uri videoUri;
 
     //<-----RECYCLER VIEW VARIABLES----->//
     RecyclerView rv;
@@ -81,12 +90,31 @@ public class ProfileFragment extends Fragment {
                 fragmentTransaction.replace(R.id.fragment_container_AHS,editFragment).commit();
             }
         });
+
+        addImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(intent, "Pick an image"), 101);
+            }
+        });
+
+        addVideo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 
     //FUNCTION THAT CONNECTS XML TO JAVA FILE//
     private void connectViews(View v) {
         settings=v.findViewById(R.id.settings_FP);
         editProfile=v.findViewById(R.id.edit_FP);
+        addImage=v.findViewById(R.id.addImage_FP);
+        addVideo=v.findViewById(R.id.addVideo_FP);
         profilePicture=v.findViewById(R.id.profileImage_FP);
         name=v.findViewById(R.id.name_FP);
         bio=v.findViewById(R.id.bio_FP);
@@ -106,4 +134,21 @@ public class ProfileFragment extends Fragment {
         rv.setAdapter(adapter);
     }
 
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==101 && resultCode== Activity.RESULT_OK && data.getData()!=null)
+        {
+            imageUri=data.getData();
+
+        }
+
+        else if(requestCode==102 && resultCode== Activity.RESULT_OK && data.getData()!=null)
+        {
+            videoUri=data.getData();
+
+        }
+
+    }
 }
