@@ -12,12 +12,9 @@ import android.text.Spanned;
 import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
-import android.text.style.ForegroundColorSpan;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -38,7 +35,10 @@ public class MainActivity extends AppCompatActivity {
     public static Profile currentUser;
     public static ArrayList<String> followers;
     public static ArrayList<String> following;
-    public static List<ProfilePosts> posts;
+    public static List<ProfilePosts> myProfilePosts; //Three urls and their types for my profile//
+    public static List<Post> myPosts;   //Complete posts data of my posts//
+    public static List<Post> allPosts;  //Complete posts data of ALL posts//
+    public static ArrayList<String> postUrls; //Temp variable//
     public static List<Profile> chatContacts;
     public static List<Profile> allChatContacts;
     public static List<Story> allStories;
@@ -145,7 +145,9 @@ public class MainActivity extends AppCompatActivity {
             currentUser=new Profile();
             followers=new ArrayList<>();
             following=new ArrayList<>();
-            posts=new ArrayList<>();
+            myProfilePosts=new ArrayList<>();
+            myPosts=new ArrayList<>();
+            allPosts=new ArrayList<>();
             chatContacts=new ArrayList<>();
             allChatContacts=new ArrayList<>();
             allStories=new ArrayList<>();
@@ -158,10 +160,12 @@ public class MainActivity extends AppCompatActivity {
 
             database=FirebaseDatabase.getInstance();
             database.setPersistenceEnabled(true);
-            reference=database.getReference("Profiles");
 
-            ExampleRunnable exampleRunnable=new ExampleRunnable();
-            new Thread(exampleRunnable).start();
+            ExampleRunnable exampleRunnable1=new ExampleRunnable(1);
+            new Thread(exampleRunnable1).start();
+
+//            ExampleRunnable exampleRunnable2=new ExampleRunnable(2);
+//            new Thread(exampleRunnable2).start();
 
             Intent intent=new Intent(MainActivity.this,homeScreen.class);
             startActivity(intent);
@@ -171,18 +175,26 @@ public class MainActivity extends AppCompatActivity {
     //IMPLEMENTED FOR THREADING PART//
     class ExampleRunnable implements Runnable{
 
-        ExampleRunnable(){
-
+        int option;
+        ExampleRunnable(int op){
+            option=op;
         }
 
         @Override
         public void run() {
-            fetchData();
-//            clearData();
+            if(option==1)
+            {
+                fetchDataProfiles();
+            }
+            else if(option==2)
+            {
+                //fetchDataPosts();
+            }
         }
     }
 
-    private void fetchData() {
+    private void fetchDataProfiles() {
+        reference=database.getReference("Profiles");
         reference.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
@@ -220,7 +232,8 @@ public class MainActivity extends AppCompatActivity {
                         while (it.hasNext())
                         {
                             Map.Entry pair = (Map.Entry)it.next();
-                            postUrls.add(pair.getValue().toString());
+                            myPosts.add((Post) pair.getValue());
+                            postUrls.add(((Post)pair.getValue()).getUrl());
                             it.remove(); // avoids a ConcurrentModificationException
                         }
 
@@ -228,17 +241,20 @@ public class MainActivity extends AppCompatActivity {
                         {
                             if( i+2<=(postUrls.size()-1) )
                             {
-                                posts.add(new ProfilePosts(postUrls.get(i), postUrls.get(i+1), postUrls.get(i+2)));
+                                myProfilePosts.add(new ProfilePosts(postUrls.get(i), myPosts.get(i).getType(),
+                                        postUrls.get(i+1), myPosts.get(i+1).getType(),
+                                        postUrls.get(i+2), myPosts.get(i+2).getType()));
                                 i+=2;
                             }
                             else if( i+1==(postUrls.size()-1) )
                             {
-                                posts.add(new ProfilePosts(postUrls.get(i),postUrls.get(i+1)));
+                                myProfilePosts.add(new ProfilePosts(postUrls.get(i), myPosts.get(i).getType(),
+                                        postUrls.get(i+1), myPosts.get(i+1).getType()));
                                 i++;
                             }
                             else if( i==(postUrls.size()-1) )
                             {
-                                posts.add(new ProfilePosts(postUrls.get(i)));
+                                myProfilePosts.add(new ProfilePosts(postUrls.get(i), myPosts.get(i).getType()));
                             }
                         }
                     }
@@ -278,31 +294,4 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
-//    public static void clearData()
-//    {
-//        for(int i=0;i<MainActivity.allChatContacts.size();i++)
-//        {
-//            if(MainActivity.followers.contains(MainActivity.allChatContacts.get(i).getMyId()) ||
-//                    MainActivity.following.contains(MainActivity.allChatContacts.get(i).getMyId()))
-//            {
-//                if(!MainActivity.chatContacts.contains(MainActivity.allChatContacts.get(i)))
-//                {
-//                    MainActivity.chatContacts.add(MainActivity.allChatContacts.get(i));
-//                    if(MainActivity.allChatContacts.get(i).getStories()!=null)
-//                    {
-//                        Iterator it =MainActivity.allChatContacts.get(i).getStories().entrySet().iterator();
-//                        while (it.hasNext())
-//                        {
-//                            Map.Entry pair = (Map.Entry)it.next();
-//                            MainActivity.allStories.add((Story) pair.getValue());
-//                            MainActivity.images.add(((Story) pair.getValue()).getStory());
-//                            MainActivity.users.add(((Story) pair.getValue()).getUserName());
-//                            it.remove(); // avoids a ConcurrentModificationException
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//    }
 }

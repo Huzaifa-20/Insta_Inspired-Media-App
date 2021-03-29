@@ -1,7 +1,8 @@
 package com.huzaifa.wallahabibi;
 
-public class Posts {
+public class Post {
     String url;
+    String type;
     String userId;
     String date;
     String likes;
@@ -9,16 +10,27 @@ public class Posts {
     String views;
 
 
-    public Posts() {
+    public Post() {
     }
 
-    public Posts(String url, String userId, String date, String likes, String shares, String views) {
+    public Post(String url, String type, String userId, String date, String likes, String shares, String views) {
         this.url = url;
+        this.type = type;
         this.userId = userId;
         this.date = date;
         this.likes = likes;
         this.shares = shares;
         this.views = views;
+    }
+
+    public Post(Post post) {
+        this.url = post.url;
+        this.type = post.type;
+        this.userId = post.userId;
+        this.date = post.date;
+        this.likes = post.likes;
+        this.shares = post.shares;
+        this.views = post.views;
     }
 
     public String getUrl() {
@@ -27,6 +39,14 @@ public class Posts {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getUserId() {

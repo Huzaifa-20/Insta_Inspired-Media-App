@@ -148,8 +148,11 @@ public class StoriesFragment extends Fragment implements StoriesRvAdapter.OnStor
         }
         for(int i=0;i<indexes.size();i++)
         {
-            frontImages.add(MainActivity.images.get(indexes.get(i)));
-            frontImagesUsers.add(MainActivity.users.get(indexes.get(i)));
+            if(checkStoryDate(MainActivity.images.get(indexes.get(i))))
+            {
+                frontImages.add(MainActivity.images.get(indexes.get(i)));
+                frontImagesUsers.add(MainActivity.users.get(indexes.get(i)));
+            }
         }
     }
 

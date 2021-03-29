@@ -37,7 +37,7 @@ public class homeScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_screen);
 
-        clearData();
+        clearDataProfiles();
         Toast.makeText(this, "Loading Data...", Toast.LENGTH_SHORT).show();
         connectViews();
     }
@@ -73,7 +73,7 @@ public class homeScreen extends AppCompatActivity {
         }
     };
 
-    public static void clearData()
+    public static void clearDataProfiles()
     {
         for(int i=0;i<MainActivity.allChatContacts.size();i++)
         {

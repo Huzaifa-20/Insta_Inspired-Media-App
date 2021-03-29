@@ -142,8 +142,7 @@
                 android:layout_height="wrap_content"
                 android:layout_toLeftOf="@+id/addImage_FP"
                 android:layout_marginRight="15dp"
-                android:background="@drawable/ic_video"
-                android:visibility="invisible">
+                android:background="@drawable/ic_video">
             </ImageButton>
 
         </RelativeLayout>
