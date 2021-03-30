@@ -252,45 +252,22 @@ public class trendingSelectedFragment extends Fragment {
 
         //-------------POSTS--------------//
         DatabaseReference postRef= FirebaseDatabase.getInstance().getReference("Profiles").child(MainActivity.currentUser.getMyId());
-        HashMap<String,Post> postHashMap=new HashMap<>();
+
         for(int j=0;j<MainActivity.myPosts.size();j++)
         {
-            postHashMap.put(MainActivity.myPosts.get(j).getDate(),MainActivity.myPosts.get(j));
-        }
-        MainActivity.currentUser.setPosts(postHashMap);
-//        postRef.setValue(postHashMap);
-
-        if(MainActivity.myPosts.size()!=0)
-        {
-            Iterator it = postHashMap.entrySet().iterator();
-            while (it.hasNext())
-            {
-                Map.Entry pair = (Map.Entry)it.next();
-                postRef.child("posts").push().setValue( (Post) (pair.getValue()));
-                it.remove(); // avoids a ConcurrentModificationException
-            }
+            postRef.child("posts").push().setValue( (Post)MainActivity.myPosts.get(j) );
         }
 
         //-------------STORIES--------------//
-        DatabaseReference storyRef= FirebaseDatabase.getInstance().getReference("Profiles").child(MainActivity.currentUser.getMyId()).child("stories");
-        HashMap<String,Story> storyHashMap=new HashMap<>();
+        DatabaseReference storyRef= FirebaseDatabase.getInstance().getReference("Profiles").child(MainActivity.currentUser.getMyId());
 
-        ArrayList<Integer> indexes=new ArrayList<>();
-        for(int i=0;i<MainActivity.users.size();i++)
+        for(int j=0;j<MainActivity.allStories.size();j++)
         {
-            if(MainActivity.users.get(i).equals(MainActivity.currentUser.getName()))
+            if(MainActivity.allStories.get(j).getUserName().equals(MainActivity.currentUser.getName()))
             {
-                indexes.add(i);
+                storyRef.child("stories").push().setValue( (Story)MainActivity.allStories.get(j) );
             }
         }
-
-        for(int j=0;j<indexes.size();j++)
-        {
-            storyHashMap.put(MainActivity.allStories.get( indexes.get(j) ).getTime(),MainActivity.allStories.get( indexes.get(j) ));
-        }
-
-        MainActivity.currentUser.setStories(storyHashMap);
-        storyRef.setValue(postHashMap);
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -330,25 +307,8 @@ public class trendingSelectedFragment extends Fragment {
         }
         myRef.setValue(user);
 
-        //-------------STORY--------------//
-//        HashMap<String,Story> sHashMap=new HashMap<>();
-//        if(user.getStories()!=null)
-//        {
-//            Iterator it = user.getStories().entrySet().iterator();
-//            while (it.hasNext())
-//            {
-//                Map.Entry pair = (Map.Entry)it.next();
-//                sHashMap.put(pair.getKey().toString(),( (Story) pair.getValue()) );
-//                it.remove(); // avoids a ConcurrentModificationException
-//            }
-//        }
-//        user.setStories(sHashMap);
-
-//        myRef.setValue(user);
-
         //-------------POSTS--------------//
         DatabaseReference myPostsRef= FirebaseDatabase.getInstance().getReference("Profiles").child(user.getMyId());
-        HashMap<String,Post> pHashMap=new HashMap<>();
 
         for(int j=0;j<MainActivity.allPosts.size();j++)
         {
@@ -358,17 +318,15 @@ public class trendingSelectedFragment extends Fragment {
             }
         }
 
-
         //-------------STORY--------------//
-//        DatabaseReference myStoryRef= FirebaseDatabase.getInstance().getReference("Profiles").child(user.getMyId()).child("stories");
-//        HashMap<String,Story> sHashMap=new HashMap<>();
-//
-//        for(int j=0;j<MainActivity.allPosts.size();j++)
-//        {
-//            if(MainActivity.allPosts.get(j).getUserId().equals(user.getMyId()))
-//            {
-//                myPostsRef.child("posts").push().setValue( ((Post)MainActivity.allPosts.get(j)) );
-//            }
-//        }
+        DatabaseReference myStoryRef= FirebaseDatabase.getInstance().getReference("Profiles").child(user.getMyId());
+
+        for(int j=0;j<MainActivity.allStories.size();j++)
+        {
+            if(MainActivity.allStories.get(j).getUserName().equals(user.getName()))
+            {
+                storyRef.child("stories").push().setValue( (Story)MainActivity.allStories.get(j) );
+            }
+        }
     }
 }

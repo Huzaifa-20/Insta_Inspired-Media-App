@@ -247,7 +247,13 @@ public class ProfileFragment extends Fragment {
     {
         int i=MainActivity.myProfilePosts.size()-1;
         int j=MainActivity.myPosts.size()-1;
-        if(MainActivity.myProfilePosts.get(i).getSecondType().equals(""))
+        System.out.println("\n<====================================== i: "+i+"=====================================>\n");
+        System.out.println("\n<====================================== j: "+j+"=====================================>\n");
+        if(i==-1)
+        {
+            MainActivity.myProfilePosts.add(new ProfilePosts(MainActivity.myPosts.get(j).getUrl(), MainActivity.myPosts.get(j).getType()));
+        }
+        else if(MainActivity.myProfilePosts.get(i).getSecondType().equals(""))
         {
             MainActivity.myProfilePosts.get(i).setSecondPost(MainActivity.myPosts.get(j).getUrl());
             MainActivity.myProfilePosts.get(i).setSecondType(MainActivity.myPosts.get(j).getType());

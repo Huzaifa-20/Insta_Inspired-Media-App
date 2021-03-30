@@ -276,12 +276,22 @@ public class MainActivity extends AppCompatActivity {
 
                     if(tempUser.getPosts()!=null)
                     {
-                        ArrayList<String> postUrls=new ArrayList<>();
                         Iterator it = tempUser.getPosts().entrySet().iterator();
                         while (it.hasNext())
                         {
                             Map.Entry pair = (Map.Entry)it.next();
                             allPosts.add((Post) pair.getValue());
+                            it.remove(); // avoids a ConcurrentModificationException
+                        }
+                    }
+
+                    if(tempUser.getStories()!=null)
+                    {
+                        Iterator it = tempUser.getStories().entrySet().iterator();
+                        while (it.hasNext())
+                        {
+                            Map.Entry pair = (Map.Entry)it.next();
+                            allStories.add((Story) pair.getValue());
                             it.remove(); // avoids a ConcurrentModificationException
                         }
                     }
