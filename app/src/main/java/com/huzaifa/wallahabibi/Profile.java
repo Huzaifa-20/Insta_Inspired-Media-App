@@ -26,7 +26,10 @@ public class Profile {
     String showStatus;
 
     public Profile() {
-
+        followers=new HashMap<>();
+        following=new HashMap<>();
+        posts=new HashMap<>();
+        stories=new HashMap<>();
     }
 
     public Profile(String myId,String profileImage, String name, String phoneNumber, String Bio, int totalFollowers,
@@ -72,6 +75,18 @@ public class Profile {
         this.showProfilePhoto=prof.showProfilePhoto;
         this.showBio=prof.showBio;
         this.showStatus=prof.showStatus;
+    }
+
+    public void addFollower(String fId)
+    {
+        this.followers.put(fId,fId);
+        this.totalFollowers++;
+    }
+
+    public void addFollowing(String fId)
+    {
+        this.following.put(fId,fId);
+        this.totalFollowing++;
     }
 
     public String getMyId() {

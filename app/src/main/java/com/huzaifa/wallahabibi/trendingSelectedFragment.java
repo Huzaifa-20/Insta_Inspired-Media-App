@@ -99,6 +99,7 @@ public class trendingSelectedFragment extends Fragment {
 
     private void updateGlobal() {
         MainActivity.following.add(user.getMyId());
+        MainActivity.chatContacts.add(user);
 
         if(user.getPosts()!=null)
         {
@@ -188,7 +189,6 @@ public class trendingSelectedFragment extends Fragment {
         userName.setText(user.getName());
         follower.setText(String.valueOf(user.getTotalFollowers()));
 
-
         if(MainActivity.following.contains(user.getMyId()))
         {
             follow.setText("Following");
@@ -219,14 +219,22 @@ public class trendingSelectedFragment extends Fragment {
     private void updateFirebase() {
 
         DatabaseReference reference= FirebaseDatabase.getInstance().getReference("Profiles").child(MainActivity.currentUser.getMyId());
-
-        HashMap<String,String> hashMap=new HashMap<>();
-        for(int j=0;j<MainActivity.following.size();j++)
-        {
-            hashMap.put(MainActivity.following.get(j),MainActivity.following.get(j));
-        }
-        MainActivity.currentUser.setFollowing(hashMap);
-        MainActivity.currentUser.setTotalFollowing((MainActivity.currentUser.getTotalFollowing())+1);
+        MainActivity.currentUser.addFollowing(user.getMyId());
         reference.setValue(MainActivity.currentUser);
+
+
+        DatabaseReference myRef= FirebaseDatabase.getInstance().getReference("Profiles").child(user.getMyId());
+        user.addFollower(MainActivity.currentUser.getMyId());
+        myRef.setValue(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Log.d("tell","Followers: "+user.getTotalFollowers());
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d("tell","Oops");
+            }
+        });
     }
 }
