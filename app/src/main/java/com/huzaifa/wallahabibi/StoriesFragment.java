@@ -116,6 +116,7 @@ public class StoriesFragment extends Fragment implements StoriesRvAdapter.OnStor
             @Override
             public void onClick(View v) {
                 update.setVisibility(View.INVISIBLE);
+                getFrontImages();
                 adapter.notifyDataSetChanged();
             }
         });
@@ -357,6 +358,8 @@ public class StoriesFragment extends Fragment implements StoriesRvAdapter.OnStor
                                     MainActivity.users.add(((Story) pair.getValue()).getUserName());
                                     MainActivity.allStories.add(new Story((((Story) pair.getValue()).getUserName()),
                                             ((Story) pair.getValue()).getStory(), currentDateandTime));
+                                    frontImages.add(((Story) pair.getValue()).getStory());
+                                    frontImagesUsers.add(((Story) pair.getValue()).getUserName());
                                     update.setVisibility(View.VISIBLE);
                                 }
                                 it.remove(); // avoids a ConcurrentModificationException

@@ -7,14 +7,6 @@
     android:orientation="vertical"
     android:weightSum="5">
 
-<!--    -->
-<!--    <androidx.cardview.widget.CardView-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content">-->
-<!--        -->
-<!--        -->
-<!--    </androidx.cardview.widget.CardView>-->
-
     <FrameLayout
         android:id="@+id/videoPreview"
         android:layout_width="match_parent"
@@ -26,25 +18,24 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center">
-
         </VideoView>
+
+        <ImageView
+            android:id="@+id/imageView_FTS"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="5dp"
+            android:visibility="invisible">
+        </ImageView>
     </FrameLayout>
 
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginVertical="5dp"
-        android:layout_marginLeft="10dp"
-        android:text="455K views - 05/05/2020"
-        android:textColor="#BDBDBD">
-    </TextView>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:weightSum="3">
+        android:weightSum="3"
+        android:layout_marginTop="10dp">
 
         <ImageView
             android:id="@+id/trendinglikes"
@@ -56,10 +47,12 @@
         </ImageView>
 
         <TextView
+            android:id="@+id/likes_FTS"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:layout_toRightOf="@+id/trendinglikes"
+            android:layout_marginLeft="5dp"
             android:text="10K">
         </TextView>
 
@@ -72,10 +65,12 @@
         </ImageView>
 
         <TextView
+            android:id="@+id/shares_FTS"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:layout_toRightOf="@+id/trendingshares"
+            android:layout_marginLeft="5dp"
             android:text="14dp">
         </TextView>
     </RelativeLayout>
@@ -95,12 +90,13 @@
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/trendinguser"
             android:layout_centerVertical="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:src="@android:drawable/ic_menu_compass">
         </de.hdodenhof.circleimageview.CircleImageView>
 
         <TextView
+            android:id="@+id/userName_FTS"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -132,10 +128,11 @@
                     android:layout_height="wrap_content">
 
                     <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/follow_FTS"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginVertical="3dp"
-                        android:text="Followers:"
+                        android:text="Follow"
                         android:textSize="18dp"
                         android:textColor="#FFFFFF"
                         android:paddingHorizontal="15dp">
@@ -145,6 +142,7 @@
                 </com.google.android.material.card.MaterialCardView>
 
                 <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/followers_FTS"
                     android:layout_toRightOf="@+id/trendingfollowcard"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

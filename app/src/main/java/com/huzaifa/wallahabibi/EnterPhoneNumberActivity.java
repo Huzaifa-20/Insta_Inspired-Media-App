@@ -3,8 +3,10 @@ package com.huzaifa.wallahabibi;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -43,6 +45,8 @@ public class EnterPhoneNumberActivity extends AppCompatActivity implements Adapt
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                next.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.rounded_clicked_button_background));
+
                 num=phoneNumber.getText().toString();
                 if(num.length()!=10)
                 {

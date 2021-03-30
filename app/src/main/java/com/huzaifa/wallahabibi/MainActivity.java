@@ -12,6 +12,7 @@ import android.text.Spanned;
 import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -39,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
     public static List<Post> myPosts;   //Complete posts data of my posts//
     public static List<Post> allPosts;  //Complete posts data of ALL posts//
     public static ArrayList<String> postUrls; //Temp variable//
+    public static ArrayList<VideoPost> videoPosts; //Temp variable//
     public static List<Profile> chatContacts;
     public static List<Profile> allChatContacts;
     public static List<Story> allStories;
@@ -48,6 +50,8 @@ public class MainActivity extends AppCompatActivity {
     public static boolean allowMicrophone;
     public static boolean allowPushNotifications;
     public static boolean chooseImage;
+    public static int videoIndex;
+    public static int imageIndex;
     //<-------------------------------->//
 
     //<----FIREBASE VARIABLES---->//
@@ -142,6 +146,7 @@ public class MainActivity extends AppCompatActivity {
         user=mAuth.getCurrentUser();
         if(user!=null)
         {
+            Log.d("here","HAHAAHHAHAAAHHAHH WORKED!!");
             currentUser=new Profile();
             followers=new ArrayList<>();
             following=new ArrayList<>();
@@ -151,23 +156,23 @@ public class MainActivity extends AppCompatActivity {
             chatContacts=new ArrayList<>();
             allChatContacts=new ArrayList<>();
             allStories=new ArrayList<>();
+            videoPosts=new ArrayList<>();
             images=new ArrayList<>();
             users=new ArrayList<>();
             allowCamera=true;
             allowMicrophone=true;
             allowPushNotifications=true;
             chooseImage=true;
+            videoIndex=-1;
+            imageIndex=-1;
 
             database=FirebaseDatabase.getInstance();
-            database.setPersistenceEnabled(true);
 
-            ExampleRunnable exampleRunnable1=new ExampleRunnable(1);
-            new Thread(exampleRunnable1).start();
 
-//            ExampleRunnable exampleRunnable2=new ExampleRunnable(2);
-//            new Thread(exampleRunnable2).start();
+            ExampleRunnable exampleRunnable=new ExampleRunnable();
+            new Thread(exampleRunnable).start();
 
-            Intent intent=new Intent(MainActivity.this,homeScreen.class);
+            Intent intent=new Intent(MainActivity.this,Intermediate.class);
             startActivity(intent);
         }
     }
@@ -175,21 +180,15 @@ public class MainActivity extends AppCompatActivity {
     //IMPLEMENTED FOR THREADING PART//
     class ExampleRunnable implements Runnable{
 
-        int option;
-        ExampleRunnable(int op){
-            option=op;
+
+        ExampleRunnable(){
+
         }
 
         @Override
         public void run() {
-            if(option==1)
-            {
-                fetchDataProfiles();
-            }
-            else if(option==2)
-            {
-                //fetchDataPosts();
-            }
+            database.setPersistenceEnabled(true);
+            fetchDataProfiles();
         }
     }
 
@@ -274,6 +273,18 @@ public class MainActivity extends AppCompatActivity {
                 else
                 {
                     allChatContacts.add(new Profile(tempUser));
+
+                    if(tempUser.getPosts()!=null)
+                    {
+                        ArrayList<String> postUrls=new ArrayList<>();
+                        Iterator it = tempUser.getPosts().entrySet().iterator();
+                        while (it.hasNext())
+                        {
+                            Map.Entry pair = (Map.Entry)it.next();
+                            allPosts.add((Post) pair.getValue());
+                            it.remove(); // avoids a ConcurrentModificationException
+                        }
+                    }
                 }
             }
             @Override

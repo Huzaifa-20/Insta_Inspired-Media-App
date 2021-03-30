@@ -2,6 +2,7 @@ package com.huzaifa.wallahabibi;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,10 +26,11 @@ public class HomeFragment extends Fragment {
 
     EditText search;
     ImageButton searchBtn;
+    String urlClicked;
 
     CardView newVid, shortVid, youTubeVid,desiVid, trendingVid, seeMore;
 
-    private ArrayList<String> posts;
+    private ArrayList<Post> posts;
 
     @Nullable
     @Override
@@ -45,6 +47,7 @@ public class HomeFragment extends Fragment {
 
     private void connectViews(View v) {
         posts=new ArrayList<>();
+        urlClicked="";
 
         search=v.findViewById(R.id.trendingsearch);
         searchBtn=v.findViewById(R.id.trendingbtn);
@@ -69,10 +72,9 @@ public class HomeFragment extends Fragment {
     }
 
     private void initRV(View v, Context c) {
-        RecyclerView rv = v.findViewById(R.id.trendingRv);
-
         getPostImages();
-        StoriesRvAdapter sada = new StoriesRvAdapter(c, posts);
+        RecyclerView rv = v.findViewById(R.id.trendingRv);
+        PostsRvAdapter sada = new PostsRvAdapter(c, posts);
         rv.setAdapter(sada);
 
         StaggeredGridLayoutManager stag = new StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL);
@@ -80,8 +82,10 @@ public class HomeFragment extends Fragment {
     }
 
     private void getPostImages() {
-        posts.add("https://i.pinimg.com/236x/12/44/d0/1244d0959963cb4a25b4e5570e04ad11--ducks-spaces.jpg");
-        posts.add("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTNF8renvz6vJgedh2EzSDgkaW1yPtpqU6FQxcDkSamaKd3-VXkbrXb4j5sNbtXF0lfY1A&usqp=CAU");
-        posts.add("https://cdna.artstation.com/p/assets/images/images/002/228/166/large/sebastian-kings-spaceduck.jpg?1458984664");
+        posts.clear();
+        for(int i=0;i<MainActivity.allPosts.size();i++)
+        {
+            posts.add(new Post(MainActivity.allPosts.get(i)));
+        }
     }
 }

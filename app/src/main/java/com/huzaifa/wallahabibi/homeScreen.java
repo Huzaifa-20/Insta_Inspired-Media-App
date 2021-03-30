@@ -98,5 +98,25 @@ public class homeScreen extends AppCompatActivity {
                 }
             }
         }
+        String tempUrl="";
+        String tempThumbnail="";
+
+        for(int i=0;i<MainActivity.allPosts.size();i++)
+        {
+            if(MainActivity.allPosts.get(i).getType().equals("video"))
+            {
+                tempUrl=MainActivity.allPosts.get(i).getUrl();
+                tempThumbnail=getThumbNail(tempUrl);
+
+                MainActivity.videoPosts.add(new VideoPost());
+            }
+        }
+    }
+
+    public static String getThumbNail(String url){
+        String thumbnail="";
+
+
+        return thumbnail;
     }
 }

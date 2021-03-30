@@ -59,12 +59,7 @@ public class StoriesRvAdapter extends RecyclerView.Adapter<StoriesRvAdapter.View
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-
-//        RequestOptions ro=new RequestOptions().placeholder(R.drawable.frame);
         holder.setPostImage(images.get(position));
-
-//        Glide.with(c).load(images.get(position)).apply(ro).into(holder.lt);
-
     }
 
     @Override
@@ -87,7 +82,6 @@ public class StoriesRvAdapter extends RecyclerView.Adapter<StoriesRvAdapter.View
 
         void connectViews(View v){
             postImageView=itemView.findViewById(R.id.imagePost);
-//            lt=v.findViewById(R.id.stories_img_left);
         }
 
         void setPostImage(String url)
@@ -99,12 +93,6 @@ public class StoriesRvAdapter extends RecyclerView.Adapter<StoriesRvAdapter.View
         public void onClick(View v) {
             if (onStoryListener!=null) {
                 onStoryListener.onStoryClick(getAdapterPosition());
-            }
-            else
-            {
-                trendingSelectedFragment ts=new trendingSelectedFragment();
-                FragmentTransaction ft = ((FragmentActivity)c).getSupportFragmentManager().beginTransaction();
-                ft.replace(R.id.fragment_container_AHS,ts).commit();
             }
         }
     }

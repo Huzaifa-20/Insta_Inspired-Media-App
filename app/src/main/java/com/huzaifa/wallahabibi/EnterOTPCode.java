@@ -2,9 +2,11 @@ package com.huzaifa.wallahabibi;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -53,6 +55,7 @@ public class EnterOTPCode extends AppCompatActivity {
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                next.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.rounded_clicked_button_background));
 
                 String code=otpCode.getText().toString();
                 if(code.equals("")){
