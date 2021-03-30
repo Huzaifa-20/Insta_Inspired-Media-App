@@ -99,7 +99,19 @@ public class trendingSelectedFragment extends Fragment {
 
     private void updateGlobal() {
         MainActivity.following.add(user.getMyId());
-        MainActivity.chatContacts.add(user);
+        boolean cond=true;
+        for(int i=0;i<MainActivity.chatContacts.size();i++)
+        {
+            if(MainActivity.chatContacts.get(i).getMyId().equals(user.getMyId()))
+            {
+                cond=false;
+            }
+        }
+        if(cond)
+        {
+            MainActivity.chatContacts.add(user);
+        }
+
 
         if(user.getPosts()!=null)
         {
@@ -236,32 +248,6 @@ public class trendingSelectedFragment extends Fragment {
         MainActivity.currentUser.setFollowers(hashMap);
         MainActivity.currentUser.setTotalFollowers(MainActivity.currentUser.getTotalFollowers());
 
-        //-------------POSTS--------------//
-//        HashMap<String,Post> postHashMap=new HashMap<>();
-//        for(int j=0;j<MainActivity.myPosts.size();j++)
-//        {
-//            postHashMap.put(MainActivity.myPosts.get(j).getDate(),MainActivity.myPosts.get(j));
-//        }
-//        MainActivity.currentUser.setPosts(postHashMap);
-
-        //-------------STORIES--------------//
-//        HashMap<String,Story> storyHashMap=new HashMap<>();
-//        ArrayList<Integer> indexes=new ArrayList<>();
-//        for(int i=0;i<MainActivity.users.size();i++)
-//        {
-//            if(MainActivity.users.get(i).equals(MainActivity.currentUser.getName()))
-//            {
-//                indexes.add(i);
-//            }
-//        }
-//
-//        for(int j=0;j<indexes.size();j++)
-//        {
-//            storyHashMap.put(MainActivity.allStories.get( indexes.get(j) ).getTime(),MainActivity.allStories.get( indexes.get(j) ));
-//        }
-//
-//        MainActivity.currentUser.setStories(storyHashMap);
-
         reference.setValue(MainActivity.currentUser);
 
         //-------------POSTS--------------//
@@ -340,22 +326,9 @@ public class trendingSelectedFragment extends Fragment {
                 followingHashMap.put(pair.getKey().toString(),pair.getValue().toString());
                 it.remove(); // avoids a ConcurrentModificationException
             }
+            user.setFollowing(followingHashMap);
         }
-
-
-        //-------------POSTS--------------//
-//        HashMap<String,Post> pHashMap=new HashMap<>();
-//        if(user.getPosts()!=null)
-//        {
-//            Iterator it = user.getPosts().entrySet().iterator();
-//            while (it.hasNext())
-//            {
-//                Map.Entry pair = (Map.Entry)it.next();
-//                pHashMap.put(pair.getKey().toString(),( (Post) pair.getValue()) );
-//                it.remove(); // avoids a ConcurrentModificationException
-//            }
-//        }
-//        user.setPosts(pHashMap);
+        myRef.setValue(user);
 
         //-------------STORY--------------//
 //        HashMap<String,Story> sHashMap=new HashMap<>();
@@ -376,52 +349,26 @@ public class trendingSelectedFragment extends Fragment {
         //-------------POSTS--------------//
         DatabaseReference myPostsRef= FirebaseDatabase.getInstance().getReference("Profiles").child(user.getMyId());
         HashMap<String,Post> pHashMap=new HashMap<>();
-        if(user.getPosts()!=null)
+
+        for(int j=0;j<MainActivity.allPosts.size();j++)
         {
-            Log.d("hope","Im inside USERS POSTS");
-            Iterator it = user.getPosts().entrySet().iterator();
-            while (it.hasNext())
+            if(MainActivity.allPosts.get(j).getUserId().equals(user.getMyId()))
             {
-                Log.d("hope","Im inside p...");
-                Map.Entry pair = (Map.Entry)it.next();
-//                myPostsRef.child("posts").push().setValue( ((Post)pair.getValue()) );
-                pHashMap.put(pair.getKey().toString(),( (Post) pair.getValue()) );
-                it.remove(); // avoids a ConcurrentModificationException
+                myPostsRef.child("posts").push().setValue( ((Post)MainActivity.allPosts.get(j)) );
             }
-
-            myRef.setValue(user);
-
-            Log.d("hope","Im inside USERS POSTS(1)");
-            Iterator i = pHashMap.entrySet().iterator();
-            while (i.hasNext())
-            {
-                Log.d("hope","Im inside p 1...");
-                Map.Entry pair = (Map.Entry)i.next();
-                myPostsRef.child("posts").push().setValue( ((Post)pair.getValue()) );
-//                pHashMap.put(pair.getKey().toString(),( (Post) pair.getValue()) );
-                i.remove(); // avoids a ConcurrentModificationException
-            }
-
-
         }
 
-        //user.setPosts(pHashMap);
-        //myPostsRef.setValue(pHashMap);
 
         //-------------STORY--------------//
 //        DatabaseReference myStoryRef= FirebaseDatabase.getInstance().getReference("Profiles").child(user.getMyId()).child("stories");
 //        HashMap<String,Story> sHashMap=new HashMap<>();
-//        if(user.getStories()!=null)
+//
+//        for(int j=0;j<MainActivity.allPosts.size();j++)
 //        {
-//            Iterator it = user.getStories().entrySet().iterator();
-//            while (it.hasNext())
+//            if(MainActivity.allPosts.get(j).getUserId().equals(user.getMyId()))
 //            {
-//                Map.Entry pair = (Map.Entry)it.next();
-//                sHashMap.put(pair.getKey().toString(),( (Story) pair.getValue()) );
-//                it.remove(); // avoids a ConcurrentModificationException
+//                myPostsRef.child("posts").push().setValue( ((Post)MainActivity.allPosts.get(j)) );
 //            }
 //        }
-//        user.setStories(sHashMap);
-//        myStoryRef.setValue(sHashMap);
     }
 }

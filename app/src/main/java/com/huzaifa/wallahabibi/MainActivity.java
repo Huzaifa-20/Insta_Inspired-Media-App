@@ -272,7 +272,6 @@ public class MainActivity extends AppCompatActivity {
                 }
                 else
                 {
-                    Profile prof=new Profile();
                     allChatContacts.add(new Profile(tempUser));
 
                     if(tempUser.getPosts()!=null)
