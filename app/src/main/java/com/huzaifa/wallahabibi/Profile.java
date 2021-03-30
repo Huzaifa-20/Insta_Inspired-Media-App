@@ -67,10 +67,10 @@ public class Profile {
         this.totalFollowers=prof.totalFollowers;
         this.totalFollowing=prof.totalFollowing;
         this.totalPosts=prof.totalPosts;
-        this.followers=prof.followers;
-        this.following=prof.following;
+        this.followers=prof.getFollowers();
+        this.following=prof.getFollowing();
         this.posts=prof.getPosts();
-        this.stories=prof.stories;
+        this.stories=prof.getStories();
         this.showLastSeen=prof.showLastSeen;
         this.showProfilePhoto=prof.showProfilePhoto;
         this.showBio=prof.showBio;
@@ -85,8 +85,14 @@ public class Profile {
 
     public void addFollowing(String fId)
     {
+        System.out.println("\n\n<=====================Before=======================>\n\n");
+        System.out.println(following);
+
         this.following.put(fId,fId);
         this.totalFollowing++;
+
+        System.out.println("\n\n<=====================AFTER=======================>\n\n");
+        System.out.println(following);
     }
 
     public String getMyId() {
@@ -176,6 +182,11 @@ public class Profile {
     }
 
     public HashMap<String,String> getFollowers() {
+        if(followers==null)
+        {
+            HashMap<String,String> hm=new HashMap<>();
+            return hm;
+        }
         return followers;
     }
 
@@ -184,6 +195,11 @@ public class Profile {
     }
 
     public HashMap<String,String> getFollowing() {
+        if(following==null)
+        {
+            HashMap<String,String> hm=new HashMap<>();
+            return hm;
+        }
         return following;
     }
 
@@ -192,6 +208,11 @@ public class Profile {
     }
 
     public HashMap<String,Post> getPosts() {
+        if(posts==null)
+        {
+            HashMap<String,Post> hm=new HashMap<>();
+            return hm;
+        }
         return posts;
     }
 
@@ -208,6 +229,11 @@ public class Profile {
     }
 
     public HashMap<String, Story> getStories() {
+        if(stories==null)
+        {
+            HashMap<String,Story> hm=new HashMap<>();
+            return hm;
+        }
         return stories;
     }
 
